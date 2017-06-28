@@ -21,30 +21,6 @@ class User(db.Model):
                                                     self.user_name, self.email)            
 
 
-class Question(db.Model):
-    """Question submitted by a user."""
-
-    __tablename__ = "questions"
-
-    question_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    title = db.Column(db.String(100))
-    description = db.Column(db.String(200))
-    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
-    created_at = db.Column(db.DateTime)
-
-    # Define relationship to user
-    user = db.relationship("User", backref=db.backref("questions", order_by=question_id))
-
-    # Define relationship to answer
-    answers = db.relationship("Answer", backref=db.backref("questions", order_by=answer_id))
-
-    def __repr__(self):
-        """Provide helpful representation when printed."""
-
-        return "<Question Info: question_id=%s title=%s description=%s user_id=%s created_at=%s>" % (self.question_id,
-                                                            self.title, self.description[:20], self.user_id, self.created_at)
-
-
 class Answer(db.Model):
     """Answer submitted by a user."""
 
@@ -68,6 +44,31 @@ class Answer(db.Model):
 
         return "<Answer Info: answer_id=%s question_id=%s user_id=%s body=%s created_at=%s edited_at=%s>" % (self.answer_id,
                                                     self.question_id, self.user_id, self.body[:20], self.created_at, self.edited_at)
+
+
+class Question(db.Model):
+    """Question submitted by a user."""
+
+    __tablename__ = "questions"
+
+    question_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    title = db.Column(db.String(100))
+    description = db.Column(db.String(200))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+    created_at = db.Column(db.DateTime)
+
+    # Define relationship to user
+    user = db.relationship("User", backref=db.backref("questions", order_by=question_id))
+
+    # Define relationship to answer
+    answers = db.relationship("Answer", backref=db.backref("questions", order_by=Answer.answer_id))
+
+    def __repr__(self):
+        """Provide helpful representation when printed."""
+
+        return "<Question Info: question_id=%s title=%s description=%s user_id=%s created_at=%s>" % (self.question_id,
+                                                            self.title, self.description[:20], self.user_id, self.created_at)
+
 
 
 ##############################################################################
