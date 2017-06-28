@@ -61,7 +61,7 @@ class Question(db.Model):
     user = db.relationship("User", backref=db.backref("questions", order_by=question_id))
 
     # Define relationship to answer
-    answers = db.relationship("Answer", backref=db.backref("questions", order_by=Answer.answer_id))
+    # answers = db.relationship("Answer", backref=db.backref("questions", order_by=Answer.answer_id))
 
     def __repr__(self):
         """Provide helpful representation when printed."""

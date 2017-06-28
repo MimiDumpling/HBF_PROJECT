@@ -11,6 +11,8 @@ from faker import Faker
 from pprint import pprint
 import json
 
+from random import randint
+
 
 def load_users():
     """Load users."""
@@ -26,8 +28,9 @@ def load_users():
         email = fake.free_email()
         password = fake.password()
 
-        user = User(user_id=user_id,
-            user_name=user_name,
+        # model.py will autoincrement user_id
+
+        user = User(user_name=user_name,
             email=email,
             password=password)
 
@@ -41,18 +44,23 @@ def load_users():
 def load_questions():
     """Load questions from Data/reddit_2017_01_posts.json"""
 
-    with open('reddit_2017_01_posts.json') as posts_file:
-        posts_dict = json.load(posts_file)
+    Question.query.delete()
 
-    pprint(posts_dict)
+    with open("Data/reddit_2017_01_posts.json") as posts_file:
+        # parsing multiple dicts, each on a separate line
+        posts_list = [json.loads(line) for line in posts_file]
 
-    for item in posts_dict:
-        question_id = posts_dict["id"]
-        created_at = datetime.utcfromtimestamp(posts_dict["created_utc"])
-        title = posts_dict["title"]
-        description = posts_dict["selftext"]
-        user_name = posts_dict["author"]
-        # user_id ... assign from the user table random.randint(1, 50) or query the user table for the user_name affiliated with user_id
+    pprint(posts_list)
+
+    #print posts_list
+
+    for item in posts_list:
+        question_id = item["id"]
+        created_at = item["created_utc"]
+        title = item["title"]
+        description = item["selftext"]
+        # user_id: can also query user table for user_name affiliated with user_id
+        user_id = randint(0, 50)
 
         question = Question(question=question,
             title=title,
@@ -68,6 +76,8 @@ def load_questions():
 def load_answers():
     """Load answers from Data/"""
 
+    Answer.query.delete()
+
     data_list = ['reddit_2017_01_comments.json', 'reddit_2017_02_comments.json', 'reddit_2017_03_comments.json',
                     'reddit_2017_04_comments.json', 'reddit_2017_05_comments.json']
 
@@ -77,14 +87,45 @@ def load_answers():
 
         pprint(comments_dict)
 
-    for item in comments_dict:
-        answer_id = comments_dict["parent_id"]
-        #question_id = assign from question table
-        #user_id = assign with random.randint(0,50) 
-        body = 
-        created_at = 
-        edited_at = 
+        for item in comments_dict:
+            answer_id = comments_dict["parent_id"]
+            question_id = Question.query.filter_by(question_id=answer_id).first()
+            user_id = randint(0, 50) 
+            body = comments_dict["body"]
+            created_at = comments_dict["created_utc"]
+        
+        answer = Answer(answer_id=answer_id,
+                    question_id=question_id,
+                    user_id=user_id,
+                    body=body,
+                    created_at=created_at)
 
+        db.session.add(answer)
+
+    db.session.commit()     
+
+
+def set_val_user_id():
+    """Set value for the next user_id after seeding database"""
+
+    # Get the Max user_id in the database
+    result = db.session.query(func.max(User.user_id)).one()
+    max_id = int(result[0])
+
+    # Set the value for the next user_id to be max_id + 1
+    query = "SELECT setval('users_user_id_seq', :new_id)"
+    db.session.execute(query, {'new_id': max_id + 1})
+    db.session.commit()
+
+
+if __name__ == "__main__":
+    connect_to_db(app)
+    db.create_all()
+
+    load_users()
+    load_questions()
+    load_answers()
+    set_val_user_id()
 
 
 
