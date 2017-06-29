@@ -16,6 +16,31 @@ app = Flask(__name__)
 # add the user_id from the session
 @app.route('/')
 def login():
-	"""Login page."""
+    """Login page."""
 
-	return render_template("login.html")
+    return render_template("login.html")
+
+
+
+
+
+
+
+
+
+
+
+
+if __name__ == "__main__":
+    # We have to set debug=True here, since it has to be True at the point
+    # that we invoke the DebugToolbarExtension
+
+    # Do not debug for demo
+    app.debug = True
+
+    connect_to_db(app)
+
+    # Use the DebugToolbar
+    DebugToolbarExtension(app)
+
+    app.run(host="0.0.0.0")
