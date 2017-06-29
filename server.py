@@ -7,6 +7,8 @@ from model import connect_to_db, db, User, Question, Answer
 
 app = Flask(__name__)
 
+# Required to use Flask sessions and the debug toolbar
+app.secret_key = "ABC"
 
 # route:
 # oh hey new user:
@@ -14,14 +16,37 @@ app = Flask(__name__)
 # create a new question or answer -> add it to the db in the server file
 
 # add the user_id from the session
+
+
 @app.route('/')
 def login():
     """Login page."""
 
+    print "hi"
+
     return render_template("login.html")
 
 
+@app.route('/process_login_form', methods=["POST"])
+def process_login_form():
+    """Determines if user/password exists in database."""
 
+    email = request.form.get("email")
+    password = request.form.get("password")
+    user = User.query.filter_by(email=email).first()
+
+
+    if user.password == password:
+        session['user_id'] = user.user_id
+        flash("You're now logged in.")
+
+    else:
+        flash("Incorrect login information. Please try again or register.")
+    
+    return redirect("/user_page")
+
+
+#@app.route('/user_page')
 
 
 
