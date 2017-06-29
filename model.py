@@ -26,8 +26,8 @@ class Answer(db.Model):
 
     __tablename__ = "answers"
 
-    answer_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    question_id = db.Column(db.Integer, db.ForeignKey('questions.question_id'))
+    answer_id = db.Column(db.String(10), primary_key=True)
+    question_id = db.Column(db.String(10), db.ForeignKey('questions.question_id'))
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
     body = db.Column(db.Text())
     created_at = db.Column(db.DateTime)
@@ -51,24 +51,20 @@ class Question(db.Model):
 
     __tablename__ = "questions"
 
-    question_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    title = db.Column(db.String(100))
-    description = db.Column(db.String(200))
+    question_id = db.Column(db.String(10), primary_key=True)
+    title = db.Column(db.Text())
+    description = db.Column(db.Text())
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
     created_at = db.Column(db.DateTime)
 
     # Define relationship to user
     user = db.relationship("User", backref=db.backref("questions", order_by=question_id))
 
-    # Define relationship to answer
-    # answers = db.relationship("Answer", backref=db.backref("questions", order_by=Answer.answer_id))
-
     def __repr__(self):
         """Provide helpful representation when printed."""
 
         return "<Question Info: question_id=%s title=%s description=%s user_id=%s created_at=%s>" % (self.question_id,
                                                             self.title, self.description[:20], self.user_id, self.created_at)
-
 
 
 ##############################################################################
@@ -93,4 +89,4 @@ if __name__ == "__main__":
 
     connect_to_db(app)
     print "Connected to DB."
-
+    db.create_all()
