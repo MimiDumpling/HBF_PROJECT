@@ -2,18 +2,16 @@
 
 
 {% block title %}
-
-<h2>Login Form<h2/>
-
+	Login
 {% endblock %}	
 
 
 {% block body %}
-<form action="/process_login_form" method="POST">
-    Email Address:<input type="text" name="email"><br>
-    Password:<input type="password" name="password"><br>
+<form action="/" method="POST">
+    Email: <input type="text" name="email"><br>
+    Password: <input type="password" name="password"><br>
     
-    <input type="submit" value="PUSH ME">
+    <input type="submit" value="LOGIN">
 </form>
 
 {% endblock %}

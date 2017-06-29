@@ -1,10 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>{% block title %}Convo{% endblock %}</title>
+  <title>{% block title %}Convo{% endblock %}</title>
 </head>
 <body>
-	{% block body %}
-	{% endblock %}
+  <div>
+    {% if "user_id" in session %}
+      <li><a href="/user_page/{{ session['user_id'] }}">Profile</a></li>
+      <li><a href="/logout">Logout</a></li>
+    {% else %}
+      <!-- <li><a href="/register">Register</a></li> -->
+      <li><a href="/login">Login</a></li>
+    {% endif %}
+  </div>
+  
+  {% block body %}
+      
+  {% endblock %}
 </body>
 </html>

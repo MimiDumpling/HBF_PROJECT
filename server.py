@@ -19,35 +19,65 @@ app.secret_key = "ABC"
 
 
 @app.route('/')
-def login():
+def show_login():
     """Login page."""
-
-    print "hi"
 
     return render_template("login.html")
 
 
-@app.route('/process_login_form', methods=["POST"])
+@app.route('/', methods=["POST"])
 def process_login_form():
     """Determines if user/password exists in database."""
 
-    email = request.form.get("email")
-    password = request.form.get("password")
+    # Get form variables
+    email = request.form["email"]
+    password = request.form["password"]
+
     user = User.query.filter_by(email=email).first()
 
+    if not user:
+        flash("No such user")
+        return redirect("/")
 
-    if user.password == password:
-        session['user_id'] = user.user_id
-        flash("You're now logged in.")
+    if user.password != password:
+        flash("Incorrect password")
+        return redirect("/")
 
-    else:
-        flash("Incorrect login information. Please try again or register.")
+    session["user_id"] = user.user_id
+
+    flash("Logged in")
+    return redirect("/questions")
+
+
+@app.route('/logout')
+def logout():
+    """Log out."""
+
+    del session["user_id"]
+    flash("Logged Out.")
+    return redirect("/")
+
+
+@app.route("/questions")
+def lists_questions():
+    """Lists questions. """
     
-    return redirect("/user_page")
+    questions = Question.query.order_by(Question.title).all()
+
+    for question in questions:
+        if question.title == "":
+            questions.remove(question)
+
+    return render_template('questions.html', questions=questions)
 
 
-#@app.route('/user_page')
+@app.route("/movie/<movie>")
+def makes_movie_info_page(movie):
+    """makes a movie info page """
 
+    movie_obj = Movie.query.filter_by(title=movie).first()
+
+    return render_template('movie_info_page.html', m=movie_obj)
 
 
 
