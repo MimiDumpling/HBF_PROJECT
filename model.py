@@ -26,7 +26,7 @@ class Answer(db.Model):
 
     __tablename__ = "answers"
 
-    answer_id = db.Column(db.String(10), primary_key=True)
+    answer_id = db.Column(db.String(10), autoincrement=True, primary_key=True)
     question_id = db.Column(db.String(10), db.ForeignKey('questions.question_id'))
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
     body = db.Column(db.Text())

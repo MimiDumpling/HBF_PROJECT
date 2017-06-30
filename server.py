@@ -45,7 +45,7 @@ def process_login_form():
 
     session["user_id"] = user.user_id
 
-    flash("Logged in")
+    flash("You are logged in")
     return redirect("/questions")
 
 
@@ -66,18 +66,22 @@ def lists_questions():
 
     for question in questions:
         if question.title == "":
-            questions.remove(question)
+            question.title == "No Title"
 
     return render_template('questions.html', questions=questions)
 
 
-@app.route("/movie/<movie>")
-def makes_movie_info_page(movie):
-    """makes a movie info page """
+@app.route("/questions/<question_id>")
+def makes_movie_info_page(question_id):
+    """makes a question info page """
 
-    movie_obj = Movie.query.filter_by(title=movie).first()
+    # question_obj = Question.query.filter_by(question_title=question).first()
 
-    return render_template('movie_info_page.html', m=movie_obj)
+
+    question = Question.query.get(question_id)
+    print [ a.question for a in Answer.query.all()]
+   
+    return render_template('question_info_page.html', question=question)
 
 
 

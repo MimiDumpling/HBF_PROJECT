@@ -82,21 +82,19 @@ def load_answers():
         pprint(comments_list)
 
         for item in comments_list:
-            answer_id = item["parent_id"]
-            question_id = Question.query.filter_by(question_id=answer_id).first()
+            question_id = item["parent_id"]
             user_id = randint(1, 50)
             body = item["body"]
             created_at = datetime.utcfromtimestamp(float(item["created_utc"]))
         
-        answer = Answer(answer_id=answer_id,
-                    question_id=question_id,
-                    user_id=user_id,
-                    body=body,
-                    created_at=created_at)
+            answer = Answer(question_id=question_id,
+                        user_id=user_id,
+                        body=body,
+                        created_at=created_at)
 
-        db.session.add(answer)
+            db.session.add(answer)
 
-    db.session.commit()     
+        db.session.commit()     
 
 
 # get all user_ids from database -> so then we can assign a random person's (by id) answer

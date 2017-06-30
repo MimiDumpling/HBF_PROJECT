@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block body %}
+
+<div>
+<h1>{{ question.title }}</h1>
+
+<div>
+
+    <div>
+        <p>Description: {{ question.description }}</p>
+        <p>Submitted by: {{ question.user.user_name }}</p>
+        <p>Date Submitted: {{ question.created_at }}</p>
+{{ question.answers }}
+      <ul>
+        {% for answer in question.answers %}
+          <li>
+            {{ answer.created_at }}
+            {{ answer.edited_at }}
+            {{ answer.body }}
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+</div>
+</div>
+{% endblock %}
