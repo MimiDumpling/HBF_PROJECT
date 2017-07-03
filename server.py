@@ -75,17 +75,32 @@ def lists_questions():
 def makes_question_info_page(question_id):
     """makes a question info page """
 
-    # question_obj = Question.query.filter_by(question_title=question).first()
+    user_id = session.get("user_id")
+    question = Question.query.get(question_id)
 
-    print question_id
+    answered = Answer.query.filter_by(user_id=user_id, question_id=question_id).first()
+
+    return render_template('question_info_page.html', question=question, answer=answered)
+
+
+@app.route("/questions/<question_id>", methods=['POST'])
+def updates_question_info_page(question_id):
+    """Updates question info page with a new answer."""
 
     question = Question.query.get(question_id)
-    print question
-    # print [ a.question for a in Answer.query.all()]
+    answer = request.form["user_answer"]
+    user_id = session.get("user_id")
+    #created_at = get time from browser??
 
-    print question.answers
-   
-    return render_template('question_info_page.html', question=question)
+    if not user_id:
+        raise Exception("No user logged in.")
+
+    new_answer = Answer(user_id=user_id, question_id=question_id, body=answer)
+    flash("Answer added.")
+    db.session.add(new_answer)
+    db.session.commit()
+
+    return render_template('question_info_page.html', question=question, answer=new_answer)
 
 
 if __name__ == "__main__":
