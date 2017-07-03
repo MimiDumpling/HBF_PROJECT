@@ -77,16 +77,15 @@ def makes_question_info_page(question_id):
 
     # question_obj = Question.query.filter_by(question_title=question).first()
 
+    print question_id
+
     question = Question.query.get(question_id)
-    #print [ a.question for a in Answer.query.all()]
+    print question
+    # print [ a.question for a in Answer.query.all()]
+
+    print question.answers
    
     return render_template('question_info_page.html', question=question)
-
-
-
-
-
-
 
 
 if __name__ == "__main__":

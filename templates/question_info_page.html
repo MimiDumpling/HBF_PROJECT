@@ -10,7 +10,8 @@
         <p>Description: {{ question.description }}</p>
         <p>Submitted by: {{ question.user.user_name }}</p>
         <p>Date Submitted: {{ question.created_at }}</p>
-{{ question.answers }}
+{% if question.answers %}
+
       <ul>
         {% for answer in question.answers %}
           <li>
@@ -19,6 +20,9 @@
             {{ answer.body }}
           </li>
         {% endfor %}
+
+{% endif %}
+        <p>There are no answers for this question.</p>        
       </ul>
     </div>
 </div>
