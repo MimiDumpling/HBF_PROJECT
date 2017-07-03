@@ -42,13 +42,12 @@ def load_questions():
     """Load questions from Data/reddit_2017_01_posts.json"""
 
     print "Questions"
-    #  queries db for user_id's
-    #  get randint from lowest to highest id
+
     with open("Data/reddit_2017_01_posts.json") as posts_file:
-        # parsing multiple dicts, each on a separate line
+        # parsing multiple dicts, each on a separate line, puts each into a list
         posts_list = [json.loads(line) for line in posts_file]
 
-    pprint(posts_list)
+    #pprint(posts_list)
 
     for item in posts_list:
         question_id = item["id"]
@@ -72,6 +71,15 @@ def load_questions():
 def load_answers():
     """Load answers from Data/"""
 
+    # one query for all the question_ids to compare inside for loop. Put in dict. 
+    # if question in for loop, also in dict, add it to the db.
+    id_dict = {}
+    question_ids = db.session.query(Question.question_id).all()
+    print "Here are the ids"
+    print question_ids
+    for question_id in question_ids:
+        id_dict[question_id[0]] = question_id[0]
+
     data_list = ['Data/reddit_2017_01_comments.json', 'Data/reddit_2017_02_comments.json', 'Data/reddit_2017_03_comments.json',
                     'Data/reddit_2017_04_comments.json', 'Data/reddit_2017_05_comments.json']
 
@@ -79,26 +87,29 @@ def load_answers():
         with open(item) as comments_file:
             comments_list = [json.loads(line) for line in comments_file]
 
-        pprint(comments_list)
+        #pprint(comments_list)
 
-        for item in comments_list:
-            question_id = item["parent_id"]
+        for comment in comments_list:
+            if id_dict.get(comment["parent_id"]) is None:
+                # if "parent_id" not in dict, go to next comment, skip 96-104
+                continue
+
+            question_id = comment["parent_id"]
             user_id = randint(1, 50)
-            body = item["body"]
-            created_at = datetime.utcfromtimestamp(float(item["created_utc"]))
+            body = comment["body"]
+            created_at = datetime.utcfromtimestamp(float(comment["created_utc"]))
         
             answer = Answer(question_id=question_id,
                         user_id=user_id,
                         body=body,
                         created_at=created_at)
-
+            print "adding answer: "
+            print answer
             db.session.add(answer)
 
-        db.session.commit()     
+        db.session.commit()
 
 
-# get all user_ids from database -> so then we can assign a random person's (by id) answer
-# one function: query db for all user_ids -> return user_id  max
 def set_val_user_id():
     """Set value for the next user_id after seeding database"""
 

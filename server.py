@@ -72,14 +72,13 @@ def lists_questions():
 
 
 @app.route("/questions/<question_id>")
-def makes_movie_info_page(question_id):
+def makes_question_info_page(question_id):
     """makes a question info page """
 
     # question_obj = Question.query.filter_by(question_title=question).first()
 
-
     question = Question.query.get(question_id)
-    print [ a.question for a in Answer.query.all()]
+    #print [ a.question for a in Answer.query.all()]
    
     return render_template('question_info_page.html', question=question)
 

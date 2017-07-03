@@ -26,8 +26,8 @@ class Answer(db.Model):
 
     __tablename__ = "answers"
 
-    answer_id = db.Column(db.String(10), autoincrement=True, primary_key=True)
-    question_id = db.Column(db.String(10), db.ForeignKey('questions.question_id'))
+    answer_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    question_id = db.Column(db.String(10), db.ForeignKey('questions.question_id'), nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
     body = db.Column(db.Text())
     created_at = db.Column(db.DateTime)
