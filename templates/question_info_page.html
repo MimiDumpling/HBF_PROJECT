@@ -9,7 +9,7 @@
     <div>
         <p>Description: {{ question.description }}</p>
         <p>Submitted by: {{ question.user.user_name }}</p>
-        <p>Date Submitted: {{ question.created_at }}</p>
+        <p>Date/Time Submitted: {{ question.created_at }}</p>
 
     {% if question.answers %}
       <ul>
@@ -51,17 +51,3 @@
 </div>
 {% endblock %}
 
-
-  <!--    <ul>
-        <li>
-          <p>Answered By: {{answer.user.user_name}}</p>
-          <p>Answered Date/Time: {{ answer.created_at }}</p>
-
-          {% if answer.edited_at %}
-            <p>Edited Date/Time: {{ answer.edited_at }}</p>
-          {% else %}
-            <p>Edited Date/Time: This answer has not been edited.</p>
-          {% endif %}
-
-          <p>Answer: {{ answer.body }}</p>
-        </li> -->

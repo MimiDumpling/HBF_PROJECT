@@ -4,6 +4,8 @@ from flask import Flask, render_template, request, flash, redirect, session
 from flask_debugtoolbar import DebugToolbarExtension
 
 from model import connect_to_db, db, User, Question, Answer
+from datetime import datetime
+from pytz import timezone
 
 app = Flask(__name__)
 
@@ -87,20 +89,21 @@ def makes_question_info_page(question_id):
 def updates_question_info_page(question_id):
     """Updates question info page with a new answer."""
 
-    question = Question.query.get(question_id)
-    answer = request.form["user_answer"]
     user_id = session.get("user_id")
-    #created_at = get time from browser??
-
     if not user_id:
         raise Exception("No user logged in.")
 
+    answer = request.form["user_answer"]
     new_answer = Answer(user_id=user_id, question_id=question_id, body=answer)
     flash("Answer added.")
     db.session.add(new_answer)
     db.session.commit()
 
-    return render_template('question_info_page.html', question=question, answer=new_answer)
+    created_at = datetime.now(timezone('UTC'))
+
+    question = Question.query.get(question_id)
+
+    return render_template('question_info_page.html', question=question, answer=new_answer, created_at=created_at)
 
 
 if __name__ == "__main__":
