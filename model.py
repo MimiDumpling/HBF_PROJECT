@@ -7,7 +7,7 @@ db = SQLAlchemy()
 class User(db.Model):
     """User of Convo website."""
 
-    __tablename__="users"
+    __tablename__= "users"
 
     user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_name = db.Column(db.String(20), nullable=False)
@@ -55,7 +55,7 @@ class Question(db.Model):
     title = db.Column(db.Text())
     description = db.Column(db.Text())
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
-    created_at = db.Column(db.DateTime)
+    created_at = db.Column(db.DateTime(timezone=True), server_default=db.func.now())
 
     # Define relationship to user
     user = db.relationship("User", backref=db.backref("questions", order_by=question_id))

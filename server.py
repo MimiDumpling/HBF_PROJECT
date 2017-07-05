@@ -7,6 +7,8 @@ from model import connect_to_db, db, User, Question, Answer
 from datetime import datetime
 from pytz import timezone
 
+from random import randint
+
 app = Flask(__name__)
 
 # Required to use Flask sessions and the debug toolbar
@@ -73,9 +75,33 @@ def lists_questions():
     return render_template('questions.html', questions=questions)
 
 
+@app.route("/questions", methods=['POST'])
+def creates_new_question():
+    """Creates a new question and updates questions table."""
+
+    user_id = session.get("user_id")
+    if not user_id:
+        raise Exception("No user logged in.")
+
+    user_question = request.form["user_question"]
+    question_id = str(randint(1, 9999999))
+    new_question = Question(user_id=user_id, question_id=question_id, title=user_question)
+    flash("Question added.")
+    db.session.add(new_question)
+    db.session.commit()
+
+    question = Question.query.get(question_id)
+
+    the_time = datetime.strptime(str(question.created_at), '%Y-%m-%d %H:%M:%S.%f+00:00')
+
+    return render_template('question_info_page.html', 
+                    question=question, created_at=the_time)
+
+
+
 @app.route("/questions/<question_id>")
 def makes_question_info_page(question_id):
-    """makes a question info page """
+    """Makes a question info page."""
 
     user_id = session.get("user_id")
     question = Question.query.get(question_id)
@@ -99,11 +125,12 @@ def updates_question_info_page(question_id):
     db.session.add(new_answer)
     db.session.commit()
 
-    created_at = datetime.now(timezone('UTC'))
-
     question = Question.query.get(question_id)
 
-    return render_template('question_info_page.html', question=question, answer=new_answer, created_at=created_at)
+    the_time = datetime.strptime(str(question.created_at), '%Y-%m-%d %H:%M:%S')
+
+    return render_template('question_info_page.html', 
+                    question=question, answer=new_answer, created_at=the_time)
 
 
 if __name__ == "__main__":
