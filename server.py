@@ -114,8 +114,6 @@ def makes_question_info_page(question_id):
 def updates_question_info_page(question_id):
     """Updates question info page with a new answer."""
 
-    print request.form
-
     user_id = session.get("user_id")
     if not user_id:
         raise Exception("No user logged in.")
@@ -134,11 +132,16 @@ def updates_question_info_page(question_id):
         return render_template('question_info_page.html', 
                         question=question, answer=new_answer, created_at=the_time)
 
+
     edited_answer = request.form.get("updated_answer")
     if edited_answer:
-        updated_answer = Answer(user_id=user_id, question_id=question_id, body=edited_answer)
+        answer = Answer.query.filter(user_id == user_id, question_id == question_id).first()
+        answer.update({"body": edited_answer}, synchronize_session=False)
+
+        print "BODY", answer.body
+        print "ANSWER ID:", answer.answer_id
+
         flash("Answer updated.")
-        db.session.add(updated_answer)
         db.session.commit()
 
         question = Question.query.get(question_id)
@@ -146,7 +149,7 @@ def updates_question_info_page(question_id):
         the_time = question.created_at.ctime()
 
         return render_template('question_info_page.html', 
-                        question=question, answer=updated_answer, created_at=the_time)
+                        question=question, answer=answer.body, created_at=the_time)
 
 
 if __name__ == "__main__":

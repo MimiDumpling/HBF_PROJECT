@@ -31,12 +31,6 @@
     {% endif %}        
       </ul>        
 
-      <form action="/questions/{{ question.question_id }}" method="POST">
-        Submit An Answer:<br>
-        <textarea rows="8" cols="100" name="user_answer"></textarea><br>
-        <input type="submit" value="Submit">
-      </form><br>
-
       {% if answer %}
         <form action="/questions/{{ question.question_id }}" method="POST">
           Do you want to edit your answer?<br>
@@ -44,7 +38,12 @@
           <input type="submit" value="Edit">
         </form>
       {% else %}
-        <p>You haven't answered this question.</p>
+        <p>Would you like to answer this question?</p>
+        <form action="/questions/{{ question.question_id }}" method="POST">
+          Submit An Answer:<br>
+          <textarea rows="8" cols="100" name="user_answer"></textarea><br>
+          <input type="submit" value="Submit">
+        </form><br>
       {% endif %} 
 
     </div>
