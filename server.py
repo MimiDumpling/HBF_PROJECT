@@ -14,13 +14,6 @@ app = Flask(__name__)
 # Required to use Flask sessions and the debug toolbar
 app.secret_key = "ABC"
 
-# route:
-# oh hey new user:
-# get user_id from login
-# create a new question or answer -> add it to the db in the server file
-
-# add the user_id from the session
-
 
 @app.route('/')
 def show_login():
@@ -64,8 +57,8 @@ def logout():
 
 @app.route("/questions")
 def lists_questions():
-    """Lists questions. """
-    
+    """Lists questions."""
+   
     questions = Question.query.order_by(Question.title).all()
 
     for question in questions:
@@ -118,14 +111,15 @@ def updates_question_info_page(question_id):
     if not user_id:
         raise Exception("No user logged in.")
 
+    question = Question.query.get(question_id)
+
+
     answer = request.form.get("user_answer")
     if answer:
         new_answer = Answer(user_id=user_id, question_id=question_id, body=answer)
         flash("Answer added.")
         db.session.add(new_answer)
         db.session.commit()
-
-        question = Question.query.get(question_id)
 
         the_time = question.created_at.ctime()
 
@@ -135,16 +129,12 @@ def updates_question_info_page(question_id):
 
     edited_answer = request.form.get("updated_answer")
     if edited_answer:
-        answer = Answer.query.filter(user_id == user_id, question_id == question_id).first()
-        answer.update({"body": edited_answer}, synchronize_session=False)
 
-        print "BODY", answer.body
-        print "ANSWER ID:", answer.answer_id
+        answer = Answer.query.filter(Answer.user_id == user_id, Answer.question_id == question_id).one()
+        answer.body = edited_answer
 
         flash("Answer updated.")
         db.session.commit()
-
-        question = Question.query.get(question_id)
 
         the_time = question.created_at.ctime()
 
