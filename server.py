@@ -92,11 +92,10 @@ def creates_new_question():
 
     question = Question.query.get(question_id)
 
-    the_time = datetime.strptime(str(question.created_at), '%Y-%m-%d %H:%M:%S.%f+00:00')
+    the_time = question.created_at.ctime()
 
     return render_template('question_info_page.html', 
                     question=question, created_at=the_time)
-
 
 
 @app.route("/questions/<question_id>")
@@ -127,7 +126,7 @@ def updates_question_info_page(question_id):
 
     question = Question.query.get(question_id)
 
-    the_time = datetime.strptime(str(question.created_at), '%Y-%m-%d %H:%M:%S')
+    the_time = question.created_at.ctime()
 
     return render_template('question_info_page.html', 
                     question=question, answer=new_answer, created_at=the_time)

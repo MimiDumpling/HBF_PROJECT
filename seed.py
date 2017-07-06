@@ -51,10 +51,15 @@ def load_questions():
 
     for item in posts_list:
         question_id = item["id"]
-        created_at = datetime.utcfromtimestamp(float(item["created_utc"]))
-
+        converted_utc = datetime.utcfromtimestamp(float(item["created_utc"]))
+        created_at = converted_utc.ctime()
         # maybe this? But is still missing the +00
         # created_at = datetime.utcfromtimestamp(float(item["created_utc"])) + timedelta(milliseconds=100)
+        # >>> question.created_at.strftime('%Y')
+        # '2017'
+        # >>> question.created_at.ctime()
+        # 'Wed Jul  5 19:40:47 2017'
+        # >>>
         title = item["title"]
         description = item["selftext"]
         # user_id: can also query user table for user_name affiliated with user_id

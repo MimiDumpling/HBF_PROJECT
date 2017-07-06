@@ -7,19 +7,18 @@
 <div>
 
     <div>
-        <p>Description: {{ question.description }}</p>
         <p>Submitted by: {{ question.user.user_name }}</p>
-        <p>Date/Time Submitted: {{ question.created_at }}</p>
+        <p>Date/Time Submitted: {{ question.created_at.ctime() }}</p>
 
     {% if question.answers %}
       <ul>
         {% for answer in question.answers %}
           <li>
             <p>Answered By: {{answer.user.user_name}}</p>
-            <p>Answered Date/Time: {{ answer.created_at }}</p>
+            <p>Answered Date/Time: {{ answer.created_at.ctime() }}</p>
 
             {% if answer.edited_at %}
-              <p>Edited Date/Time: {{ answer.edited_at }}</p>
+              <p>Edited Date/Time: {{ answer.edited_at.ctime() }}</p>
             {% else %}
               <p>Edited Date/Time: This answer has not been edited.</p>
             {% endif %}
@@ -30,21 +29,23 @@
     {% else %}
       <p>There are no answers for this question.</p>
     {% endif %}        
-      </ul> 
-
-
-    {% if answer %}
-      <p>Do you want to edit your answer?</p>
-    {% else %}
-      <p>You haven't answered this question.</p>
-    {% endif %}        
-      </ul>
+      </ul>        
 
       <form action="/questions/{{ question.question_id }}" method="POST">
         Submit An Answer:<br>
         <textarea rows="8" cols="100" name="user_answer"></textarea><br>
         <input type="submit" value="Submit">
-      </form>
+      </form><br>
+
+      {% if answer %}
+        <form>
+          Do you want to edit your answer?<br>
+          <textarea rows="8" cols="100" name="updated_answer">{{ answer.body }}</textarea><br>
+          <input type="submit" value="Edit">
+        </form>
+      {% else %}
+        <p>You haven't answered this question.</p>
+      {% endif %} 
 
     </div>
 </div>
