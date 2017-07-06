@@ -38,7 +38,7 @@
       </form><br>
 
       {% if answer %}
-        <form>
+        <form action="/questions/{{ question.question_id }}" method="POST">
           Do you want to edit your answer?<br>
           <textarea rows="8" cols="100" name="updated_answer">{{ answer.body }}</textarea><br>
           <input type="submit" value="Edit">

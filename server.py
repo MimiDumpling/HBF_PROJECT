@@ -114,22 +114,39 @@ def makes_question_info_page(question_id):
 def updates_question_info_page(question_id):
     """Updates question info page with a new answer."""
 
+    print request.form
+
     user_id = session.get("user_id")
     if not user_id:
         raise Exception("No user logged in.")
 
-    answer = request.form["user_answer"]
-    new_answer = Answer(user_id=user_id, question_id=question_id, body=answer)
-    flash("Answer added.")
-    db.session.add(new_answer)
-    db.session.commit()
+    answer = request.form.get("user_answer")
+    if answer:
+        new_answer = Answer(user_id=user_id, question_id=question_id, body=answer)
+        flash("Answer added.")
+        db.session.add(new_answer)
+        db.session.commit()
 
-    question = Question.query.get(question_id)
+        question = Question.query.get(question_id)
 
-    the_time = question.created_at.ctime()
+        the_time = question.created_at.ctime()
 
-    return render_template('question_info_page.html', 
-                    question=question, answer=new_answer, created_at=the_time)
+        return render_template('question_info_page.html', 
+                        question=question, answer=new_answer, created_at=the_time)
+
+    edited_answer = request.form.get("updated_answer")
+    if edited_answer:
+        updated_answer = Answer(user_id=user_id, question_id=question_id, body=edited_answer)
+        flash("Answer updated.")
+        db.session.add(updated_answer)
+        db.session.commit()
+
+        question = Question.query.get(question_id)
+
+        the_time = question.created_at.ctime()
+
+        return render_template('question_info_page.html', 
+                        question=question, answer=updated_answer, created_at=the_time)
 
 
 if __name__ == "__main__":
