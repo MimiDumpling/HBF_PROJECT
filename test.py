@@ -1,3 +1,11 @@
+answer.edited_at = datetime.utcnow()
+        utc_time = answer.edited_at
+        pacific_time = pytz.timezone('US/Pacific')
+        utc = pytz.utc
+        local_time = utc.localize(utc_time).astimezone(pacific_time)
+
+
+
 mine: 2017-07-05 01:21:17.045781+00
 reddit: 2017-01-03 05:30:18+00
 
@@ -7,7 +15,6 @@ dom try: 2017-01-25 22:37:48.100000
 
 
 Thursday 06, July 2017 10:30PM        
-
 
 
 user_id = session.get("user_id")

@@ -105,6 +105,16 @@ def makes_question_info_page(question_id):
     return render_template('question_info_page.html', question=question, answer=answered)
 
 
+@app.template_filter('pacific')
+def converts_to_pacific(time):
+    """Converts utc to pacific timezone."""
+
+    time = time.astimezone(timezone('US/Pacific'))
+    formated_time = time.strftime("%A %d, %B %Y %I:%M%p")
+
+    return formated_time
+
+
 @app.route("/questions/<question_id>", methods=['POST'])
 def updates_question_info_page(question_id):
     """Updates question info page with a new answer."""
@@ -135,18 +145,18 @@ def updates_question_info_page(question_id):
         answer = Answer.query.filter(Answer.user_id == user_id, Answer.question_id == question_id).one()
         answer.body = edited_answer
         answer_body = answer.body
-        answer.edited_at = datetime.now(tz=pacific)
+        answer.edited_at = datetime.now(pytz.timezone('US/Pacific'))
+
+        local_time = answer.edited_at
         db.session.commit()
 
         flash("Answer updated.")
         the_time = answer.created_at.strftime(datetime_format)
-        the_new_time = answer.edited_at.strftime(datetime_format)
-
+        the_new_time = local_time.strftime(datetime_format)
+        
         return render_template('question_info_page.html', 
-                        question=question, 
-                        answer=answer_body, 
-                        created_at=the_time,
-                        edited_at=the_new_time)
+                        question=question,
+                        pacific = pacific)
 
     
 if __name__ == "__main__":
@@ -155,6 +165,8 @@ if __name__ == "__main__":
 
     # Do not debug for demo
     app.debug = True
+
+    app.jinja_env.auto_reload = app.debug
 
     connect_to_db(app)
 
