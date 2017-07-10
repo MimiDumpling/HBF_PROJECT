@@ -25,15 +25,14 @@ def load_users():
         user_name = fake.user_name()
         email = fake.free_email()
         password = fake.password()
-
         # model.py will autoincrement user_id
+
         user = User(user_name=user_name,
                     email=email,
                     password=password)
 
         # adds to the session
         db.session.add(user)
-
     # commits to database
     db.session.commit()
 
@@ -47,22 +46,12 @@ def load_questions():
         # parsing multiple dicts, each on a separate line, puts each into a list
         posts_list = [json.loads(line) for line in posts_file]
 
-    #pprint(posts_list)
-
     for item in posts_list:
         question_id = item["id"]
         converted_utc = datetime.utcfromtimestamp(float(item["created_utc"]))
         created_at = converted_utc.ctime()
-        # maybe this? But is still missing the +00
-        # created_at = datetime.utcfromtimestamp(float(item["created_utc"])) + timedelta(milliseconds=100)
-        # >>> question.created_at.strftime('%Y')
-        # '2017'
-        # >>> question.created_at.ctime()
-        # 'Wed Jul  5 19:40:47 2017'
-        # >>>
         title = item["title"]
         description = item["selftext"]
-        # user_id: can also query user table for user_name affiliated with user_id
         user_id = randint(1, 50)
 
         question = Question(question_id=question_id,
@@ -72,19 +61,17 @@ def load_questions():
             created_at=created_at)
 
         db.session.add(question)
-
     db.session.commit()
 
 
 def load_answers():
     """Load answers from Data/"""
 
-    # one query for all the question_ids to compare inside for loop. Put in dict. 
+    # one query for all the question_ids to compare inside 'for' loop. Put in dict. 
     # if question in for loop, also in dict, add it to the db.
     id_dict = {}
     question_ids = db.session.query(Question.question_id).all()
-    print "Here are the ids"
-    print question_ids
+  
     for question_id in question_ids:
         id_dict[question_id[0]] = question_id[0]
 
@@ -94,8 +81,6 @@ def load_answers():
     for item in data_list:
         with open(item) as comments_file:
             comments_list = [json.loads(line) for line in comments_file]
-
-        #pprint(comments_list)
 
         for comment in comments_list:
             if id_dict.get(comment["parent_id"]) is None:
@@ -111,17 +96,15 @@ def load_answers():
                         user_id=user_id,
                         body=body,
                         created_at=created_at)
-            print "adding answer: "
-            print answer
+            
             db.session.add(answer)
-
         db.session.commit()
 
 
 def set_val_user_id():
-    """Set value for the next user_id after seeding database"""
+    """Set value for the next user_id after seeding database."""
 
-    # Get the Max user_id in the database
+    # Get the max user_id in the database
     result = db.session.query(func.max(User.user_id)).one()
     max_id = int(result[0])
 

@@ -6,6 +6,8 @@ from flask_debugtoolbar import DebugToolbarExtension
 from model import connect_to_db, db, User, Question, Answer
 from datetime import datetime
 from pytz import timezone
+import pytz
+pacific = pytz.timezone('US/Pacific')
 
 from random import randint
 
@@ -85,7 +87,7 @@ def creates_new_question():
 
     question = Question.query.get(question_id)
 
-    the_time = question.created_at.ctime()
+    the_time = question.created_at.strftime("%A %d, %B %Y %I:%M%p")
 
     return render_template('question_info_page.html', 
                     question=question, created_at=the_time)
@@ -112,36 +114,41 @@ def updates_question_info_page(question_id):
         raise Exception("No user logged in.")
 
     question = Question.query.get(question_id)
-
-
     answer = request.form.get("user_answer")
+    edited_answer = request.form.get("updated_answer")
+    datetime_format = "%A %d, %B %Y %I:%M%p"
+
     if answer:
         new_answer = Answer(user_id=user_id, question_id=question_id, body=answer)
-        flash("Answer added.")
         db.session.add(new_answer)
         db.session.commit()
 
-        the_time = question.created_at.ctime()
+        flash("Answer added.")
+        the_time = new_answer.created_at.strftime(datetime_format)
 
         return render_template('question_info_page.html', 
-                        question=question, answer=new_answer, created_at=the_time)
+                        question=question, 
+                        answer=new_answer, 
+                        created_at=the_time)
 
-
-    edited_answer = request.form.get("updated_answer")
-    if edited_answer:
-
+    elif edited_answer:
         answer = Answer.query.filter(Answer.user_id == user_id, Answer.question_id == question_id).one()
         answer.body = edited_answer
-
-        flash("Answer updated.")
+        answer_body = answer.body
+        answer.edited_at = datetime.now(tz=pacific)
         db.session.commit()
 
-        the_time = question.created_at.ctime()
+        flash("Answer updated.")
+        the_time = answer.created_at.strftime(datetime_format)
+        the_new_time = answer.edited_at.strftime(datetime_format)
 
         return render_template('question_info_page.html', 
-                        question=question, answer=answer.body, created_at=the_time)
+                        question=question, 
+                        answer=answer_body, 
+                        created_at=the_time,
+                        edited_at=the_new_time)
 
-
+    
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the point
     # that we invoke the DebugToolbarExtension

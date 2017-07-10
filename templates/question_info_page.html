@@ -8,17 +8,17 @@
 
     <div>
         <p>Submitted by: {{ question.user.user_name }}</p>
-        <p>Date/Time Submitted: {{ question.created_at.ctime() }}</p>
+        <p>Date/Time Submitted: {{ question.created_at.strftime("%A %d, %B %Y %I:%M%p") }}</p>
 
     {% if question.answers %}
       <ul>
         {% for answer in question.answers %}
           <li>
             <p>Answered By: {{answer.user.user_name}}</p>
-            <p>Answered Date/Time: {{ answer.created_at.ctime() }}</p>
+            <p>Answered Date/Time: {{ answer.created_at.strftime("%A %d, %B %Y %I:%M%p") }}</p>
 
             {% if answer.edited_at %}
-              <p>Edited Date/Time: {{ answer.edited_at.ctime() }}</p>
+              <p>Edited Date/Time: {{ answer.edited_at.strftime("%A %d, %B %Y %I:%M%p") }}</p>
             {% else %}
               <p>Edited Date/Time: This answer has not been edited.</p>
             {% endif %}
