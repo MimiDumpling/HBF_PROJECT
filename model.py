@@ -30,7 +30,6 @@ class Answer(db.Model):
     question_id = db.Column(db.String(10), db.ForeignKey('questions.question_id'), nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
     body = db.Column(db.Text())
-    # created at can't be now... needs to stay static
     created_at = db.Column(db.DateTime(timezone=True), server_default=db.func.now())
     edited_at = db.Column(db.DateTime(timezone=True), server_default=db.func.now())
 
