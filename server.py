@@ -31,7 +31,6 @@ def process_login_form():
     # Get form variables
     email = request.form["email"]
     password = request.form["password"]
-
     user = User.query.filter_by(email=email).first()
 
     if not user:
@@ -43,8 +42,8 @@ def process_login_form():
         return redirect("/")
 
     session["user_id"] = user.user_id
-
     flash("You are logged in")
+    
     return redirect("/questions")
 
 
@@ -54,6 +53,7 @@ def logout():
 
     del session["user_id"]
     flash("Logged Out.")
+
     return redirect("/")
 
 
@@ -80,17 +80,20 @@ def creates_new_question():
 
     user_question = request.form["user_question"]
     question_id = str(randint(1, 9999999))
-    new_question = Question(user_id=user_id, question_id=question_id, title=user_question)
-    flash("Question added.")
+    new_question = Question(user_id=user_id, 
+                            question_id=question_id, 
+                            title=user_question)
+
     db.session.add(new_question)
     db.session.commit()
+    flash("Question added.")
 
     question = Question.query.get(question_id)
-
-    the_time = question.created_at.strftime("%A %d, %B %Y %I:%M%p")
+    the_time = question.created_at
 
     return render_template('question_info_page.html', 
-                    question=question, created_at=the_time)
+                            question=question, 
+                            created_at=the_time)
 
 
 @app.route("/questions/<question_id>")
@@ -99,15 +102,17 @@ def makes_question_info_page(question_id):
 
     user_id = session.get("user_id")
     question = Question.query.get(question_id)
+    answered = Answer.query.filter_by(user_id=user_id, 
+                                    question_id=question_id).first()
 
-    answered = Answer.query.filter_by(user_id=user_id, question_id=question_id).first()
-
-    return render_template('question_info_page.html', question=question, answer=answered)
+    return render_template('question_info_page.html', 
+                            question=question, 
+                            answer=answered)
 
 
 @app.template_filter('pacific')
 def converts_to_pacific(time):
-    """Converts utc to pacific timezone."""
+    """Converts utc to pacific timezone. Called in jinja."""
 
     time = time.astimezone(timezone('US/Pacific'))
     formated_time = time.strftime("%A %d, %B %Y %I:%M%p")
@@ -126,16 +131,17 @@ def updates_question_info_page(question_id):
     question = Question.query.get(question_id)
     answer = request.form.get("user_answer")
     edited_answer = request.form.get("updated_answer")
-    datetime_format = "%A %d, %B %Y %I:%M%p"
 
     if answer:
-        new_answer = Answer(user_id=user_id, question_id=question_id, body=answer)
+        new_answer = Answer(user_id=user_id, 
+                            question_id=question_id, 
+                            body=answer)
 
         db.session.add(new_answer)
         db.session.commit()
         flash("Answer added.")
 
-        the_time = new_answer.created_at.strftime(datetime_format)
+        the_time = new_answer.created_at
         
         return render_template('question_info_page.html', 
                         question=question, 
@@ -145,7 +151,6 @@ def updates_question_info_page(question_id):
     elif edited_answer:
         answer = Answer.query.filter(Answer.user_id == user_id, Answer.question_id == question_id).one()
         answer.body = edited_answer
-        answer_body = answer.body
         answer.edited_at = datetime.now(pytz.timezone('US/Pacific'))
 
         db.session.commit()
