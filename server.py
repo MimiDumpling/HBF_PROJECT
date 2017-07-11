@@ -130,12 +130,13 @@ def updates_question_info_page(question_id):
 
     if answer:
         new_answer = Answer(user_id=user_id, question_id=question_id, body=answer)
+
         db.session.add(new_answer)
         db.session.commit()
-
         flash("Answer added.")
-        the_time = new_answer.created_at.strftime(datetime_format)
 
+        the_time = new_answer.created_at.strftime(datetime_format)
+        
         return render_template('question_info_page.html', 
                         question=question, 
                         answer=new_answer, 
@@ -147,16 +148,12 @@ def updates_question_info_page(question_id):
         answer_body = answer.body
         answer.edited_at = datetime.now(pytz.timezone('US/Pacific'))
 
-        local_time = answer.edited_at
         db.session.commit()
-
         flash("Answer updated.")
-        the_time = answer.created_at.strftime(datetime_format)
-        the_new_time = local_time.strftime(datetime_format)
         
         return render_template('question_info_page.html', 
                         question=question,
-                        pacific = pacific)
+                        answer=answer)
 
     
 if __name__ == "__main__":

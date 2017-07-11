@@ -5,6 +5,11 @@ answer.edited_at = datetime.utcnow()
         local_time = utc.localize(utc_time).astimezone(pacific_time)
 
 
+answer.edited_at | pacific
+
+
+pacific.normalize(dt)
+dt is the utc timezone
 
 mine: 2017-07-05 01:21:17.045781+00
 reddit: 2017-01-03 05:30:18+00
