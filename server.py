@@ -131,6 +131,9 @@ def updates_question_info_page(question_id):
     question = Question.query.get(question_id)
     answer = request.form.get("user_answer")
     edited_answer = request.form.get("updated_answer")
+    question_voting = question.question_votes
+    #counts number of rows with this question_id
+    question_vote_count = question_voting.count()
 
     if answer:
         new_answer = Answer(user_id=user_id, 

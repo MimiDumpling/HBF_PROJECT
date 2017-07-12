@@ -3,15 +3,29 @@
 
 <a href="/questions">Questions</a>
 
+
+
 <div>
 <h1>{{ question.title }}</h1>
 
 <div>
 
     <div>
+        <span id="question_id" data-question-id="{{ question.question_id }}"></span>
         <p>Submitted by: {{ question.user.user_name }}</p>
         <p>Date/Time Submitted: {{ question.created_at | pacific }}</p>
 
+          <p class="question-vote-count">0</p>
+          <button
+                  id="question-vote"
+                  class="vote-btn" 
+                  data-default-text="Vote This Question Up!"
+                  data-alt-text="Thanks for Voting">
+            <span class="icon"></span> <span class="text">Vote This Question Up!</span>
+          </button>
+
+  <script src="/static/vote.js"></script> 
+         
     {% if question.answers %}
       <ul>
         {% for answer in question.answers %}
@@ -26,6 +40,18 @@
             {% endif %}
 
             <p>Answer: {{ answer.body }}</p>
+
+            <form class="myform">
+              <p class="answer-vote-count">0</p>
+              <button
+                      id="answer-vote"
+                      class="vote-btn" 
+                      data-default-text="Vote This Answer Up!"
+                      data-alt-text="Thanks for Voting">
+                <span class="icon"></span> <span class="text">Vote This Answer Up!</span>
+              </button>
+            </form>
+
           </li>
         {% endfor %}
 

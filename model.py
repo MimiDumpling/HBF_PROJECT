@@ -67,6 +67,38 @@ class Question(db.Model):
                                                             self.title, self.description[:20], self.user_id, self.created_at)
 
 
+class QuestionVotes(db.Model):
+    """Vote submitted by user on a question."""
+
+    __tablename__ = "question_votes"
+
+    question_vote_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+    question_id = db.Column(db.String(10), db.ForeignKey('questions.question_id'))
+
+    # Define relationship to user
+    user = db.relationship("User", backref=db.backref("question_votes", order_by=question_id))
+
+    # Define relationship to question
+    question = db.relationship("Question", backref=db.backref("question_votes"))
+
+
+class AnswerVotes(db.Model):
+    """Vote submitted by user on an answer."""
+
+    __tablename__ = "answer_votes"
+
+    answer_vote_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+    answer_id = db.Column(db.Integer, db.ForeignKey('answers.answer_id'))
+
+    # Define relationship to user
+    user = db.relationship("User", backref=db.backref("answer_votes", order_by=answer_id))
+
+    # Define relationship to answer
+    answer = db.relationship("Answer", backref=db.backref("answer_votes"))
+
+
 ##############################################################################
 # Helper functions
 
