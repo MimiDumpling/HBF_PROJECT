@@ -12,6 +12,7 @@
 
     <div>
         <span id="question_id" data-question-id="{{ question.question_id }}"></span>
+
         <p>Submitted by: {{ question.user.user_name }}</p>
         <p>Date/Time Submitted: {{ question.created_at | pacific }}</p>
 
@@ -25,11 +26,13 @@
           </button>
 
   <script src="/static/vote.js"></script> 
-         
+
     {% if question.answers %}
       <ul>
         {% for answer in question.answers %}
           <li>
+            <span id="answer_id" data-answer-id="{{ answer.answer_id }}"></span>
+
             <p>Answered By: {{answer.user.user_name}}</p>
             <p>Answered Date/Time: {{ (answer.created_at | pacific) }}</p>
 
@@ -41,7 +44,6 @@
 
             <p>Answer: {{ answer.body }}</p>
 
-            <form class="myform">
               <p class="answer-vote-count">0</p>
               <button
                       id="answer-vote"
@@ -50,7 +52,6 @@
                       data-alt-text="Thanks for Voting">
                 <span class="icon"></span> <span class="text">Vote This Answer Up!</span>
               </button>
-            </form>
 
           </li>
         {% endfor %}

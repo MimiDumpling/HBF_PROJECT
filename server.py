@@ -131,9 +131,6 @@ def updates_question_info_page(question_id):
     question = Question.query.get(question_id)
     answer = request.form.get("user_answer")
     edited_answer = request.form.get("updated_answer")
-    question_voting = question.question_votes
-    #counts number of rows with this question_id
-    question_vote_count = question_voting.count()
 
     if answer:
         new_answer = Answer(user_id=user_id, 
@@ -152,7 +149,8 @@ def updates_question_info_page(question_id):
                         created_at=the_time)
 
     elif edited_answer:
-        answer = Answer.query.filter(Answer.user_id == user_id, Answer.question_id == question_id).one()
+        answer = Answer.query.filter(Answer.user_id == user_id, 
+                                    Answer.question_id == question_id).one()
         answer.body = edited_answer
         answer.edited_at = datetime.now(pytz.timezone('US/Pacific'))
 
@@ -163,7 +161,23 @@ def updates_question_info_page(question_id):
                         question=question,
                         answer=answer)
 
+
+@app.route("/question_vote/<question_id>", methods=['POST'])
+def calculates_question_vote():
+    """Calculates number of votes a question has accrued."""
+
+    user_id = session.get("user_id")
+    if not user_id:
+        raise Exception("No user logged in.")
+
+    question = Question.query.get(question_id)
+    question_voting = question.question_votes
+    #counts number of rows with this question_id
+    question_vote_count = question_voting.count()
     
+
+
+
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the point
     # that we invoke the DebugToolbarExtension
