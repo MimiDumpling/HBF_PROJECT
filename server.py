@@ -1,6 +1,6 @@
 from jinja2 import StrictUndefined
 
-from flask import Flask, render_template, request, flash, redirect, session
+from flask import Flask, render_template, request, flash, redirect, session, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 
 from model import connect_to_db, db, User, Question, Answer
@@ -162,20 +162,52 @@ def updates_question_info_page(question_id):
                         answer=answer)
 
 
-@app.route("/question_vote/<question_id>", methods=['POST'])
-def calculates_question_vote():
+@app.route("/question_vote/<question_id>.json", methods=['POST'])
+def calculates_question_vote(question_id):
     """Calculates number of votes a question has accrued."""
+
+    print "++++++++++++++++++++++++++"
+    print "HELLO! :)"
 
     user_id = session.get("user_id")
     if not user_id:
         raise Exception("No user logged in.")
 
-    question = Question.query.get(question_id)
-    question_voting = question.question_votes
-    #counts number of rows with this question_id
-    question_vote_count = question_voting.count()
-    
+    print "++++++++++++++++++++++++++"
+    print "This is the question_id", question_id 
 
+    question = Question.query.get(question_id)
+
+    print"============================="
+    print "This is the question", question
+    print "This is the question.question_id", question.question_id
+
+    question_voting = question.question_votes
+    
+    print "++++++++++++++++++++++++++++"
+    print "This is question_voting", question_voting
+    #counts number of rows with this question_id
+    
+    # if question_voting == []:
+        # do this
+    # else:
+        #question_vote_count = question_voting.count(question.question_votes.question_id)
+
+
+    if QuestionVotes.query.filter(QuestionVotes.question_id == question_id, 
+                                    QuestionVotes.user_id == user_id).one():
+
+        flash("You've already voted for this question.")
+        # or raise an alert with same mssg
+
+    else:
+        new_question_vote = QuestionVotes(user_id=user_id,
+                                            question_id=question_id)
+        question_vote_count += 1
+        db.session.add()
+        db.session.commit()
+
+    return jsonify(question_vote_count)    
 
 
 if __name__ == "__main__":

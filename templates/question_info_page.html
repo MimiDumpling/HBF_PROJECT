@@ -3,8 +3,6 @@
 
 <a href="/questions">Questions</a>
 
-
-
 <div>
 <h1>{{ question.title }}</h1>
 
@@ -19,13 +17,11 @@
           <p class="question-vote-count">0</p>
           <button
                   id="question-vote"
-                  class="vote-btn" 
+                  class="question-vote-btn" 
                   data-default-text="Vote This Question Up!"
                   data-alt-text="Thanks for Voting">
             <span class="icon"></span> <span class="text">Vote This Question Up!</span>
           </button>
-
-  <script src="/static/vote.js"></script> 
 
     {% if question.answers %}
       <ul>
@@ -47,7 +43,7 @@
               <p class="answer-vote-count">0</p>
               <button
                       id="answer-vote"
-                      class="vote-btn" 
+                      class="answer-vote-btn" 
                       data-default-text="Vote This Answer Up!"
                       data-alt-text="Thanks for Voting">
                 <span class="icon"></span> <span class="text">Vote This Answer Up!</span>

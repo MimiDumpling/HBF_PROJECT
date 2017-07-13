@@ -17,8 +17,6 @@
       {% endif %}
     </div>
 
-
-
     <div>
       <ul>
         {% for message in get_flashed_messages() %}
@@ -28,8 +26,9 @@
     </div>
 
   {% block body %}
-  
+    
   {% endblock %}
-
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="/static/vote.js"></script> 
   </body>
 </html>
