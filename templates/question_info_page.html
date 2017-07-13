@@ -14,7 +14,10 @@
         <p>Submitted by: {{ question.user.user_name }}</p>
         <p>Date/Time Submitted: {{ question.created_at | pacific }}</p>
 
-          <p class="question-vote-count">0</p>
+          <p>
+            Current Votes:
+            <span class="question-vote-count">0</span>
+          </p>
           <button
                   id="question-vote"
                   class="question-vote-btn" 

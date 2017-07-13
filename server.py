@@ -3,7 +3,7 @@ from jinja2 import StrictUndefined
 from flask import Flask, render_template, request, flash, redirect, session, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 
-from model import connect_to_db, db, User, Question, Answer
+from model import connect_to_db, db, User, Question, Answer, QuestionVotes, AnswerVotes
 from datetime import datetime
 from pytz import timezone
 import pytz
@@ -166,9 +166,6 @@ def updates_question_info_page(question_id):
 def calculates_question_vote(question_id):
     """Calculates number of votes a question has accrued."""
 
-    print "++++++++++++++++++++++++++"
-    print "HELLO! :)"
-
     user_id = session.get("user_id")
     if not user_id:
         raise Exception("No user logged in.")
@@ -183,19 +180,18 @@ def calculates_question_vote(question_id):
     print "This is the question.question_id", question.question_id
 
     question_voting = question.question_votes
-    
+
     print "++++++++++++++++++++++++++++"
     print "This is question_voting", question_voting
-    #counts number of rows with this question_id
-    
-    # if question_voting == []:
-        # do this
-    # else:
-        #question_vote_count = question_voting.count(question.question_votes.question_id)
 
+    #counts number of rows with this question_id
+    question_vote_count = len(question.question_votes)
+
+    print "============================="
+    print "This is question_vote_count", question_vote_count
 
     if QuestionVotes.query.filter(QuestionVotes.question_id == question_id, 
-                                    QuestionVotes.user_id == user_id).one():
+                                    QuestionVotes.user_id == user_id).first():
 
         flash("You've already voted for this question.")
         # or raise an alert with same mssg
@@ -204,7 +200,7 @@ def calculates_question_vote(question_id):
         new_question_vote = QuestionVotes(user_id=user_id,
                                             question_id=question_id)
         question_vote_count += 1
-        db.session.add()
+        db.session.add(new_question_vote)
         db.session.commit()
 
     return jsonify(question_vote_count)    

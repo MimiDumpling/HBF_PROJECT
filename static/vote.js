@@ -12,9 +12,12 @@ function addQuestionVote() {
 }
 
 function votingDone(data) {
-    alert(data);
     console.log("Hooray!");
     $('.question-vote-btn').attr("disabled", "disabled");
+    $('.question-vote-count').html(data);
 }
+
+
+
 
 questionVote.addEventListener('click', addQuestionVote);
