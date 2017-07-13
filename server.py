@@ -170,31 +170,14 @@ def calculates_question_vote(question_id):
     if not user_id:
         raise Exception("No user logged in.")
 
-    print "++++++++++++++++++++++++++"
-    print "This is the question_id", question_id 
-
     question = Question.query.get(question_id)
-
-    print"============================="
-    print "This is the question", question
-    print "This is the question.question_id", question.question_id
-
     question_voting = question.question_votes
-
-    print "++++++++++++++++++++++++++++"
-    print "This is question_voting", question_voting
-
-    #counts number of rows with this question_id
     question_vote_count = len(question.question_votes)
-
-    print "============================="
-    print "This is question_vote_count", question_vote_count
 
     if QuestionVotes.query.filter(QuestionVotes.question_id == question_id, 
                                     QuestionVotes.user_id == user_id).first():
 
         flash("You've already voted for this question.")
-        # or raise an alert with same mssg
 
     else:
         new_question_vote = QuestionVotes(user_id=user_id,
@@ -203,7 +186,10 @@ def calculates_question_vote(question_id):
         db.session.add(new_question_vote)
         db.session.commit()
 
-    return jsonify(question_vote_count)    
+    return jsonify(question_vote_count)
+
+
+    
 
 
 if __name__ == "__main__":

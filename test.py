@@ -1,57 +1,60 @@
-answer.edited_at = datetime.utcnow()
-        utc_time = answer.edited_at
-        pacific_time = pytz.timezone('US/Pacific')
-        utc = pytz.utc
-        local_time = utc.localize(utc_time).astimezone(pacific_time)
+function addAnswerVote() {
+    var answer_span = document.getElementById('answer_id');
+    var question_id = answer_span.dataset.answerId;
+    console.log(answer_span);
+    console.log(answer_id);
+    $.post("/answer_vote/" + question_id + ".json", answerVotingDone);
+}
+
+function answerVotingDone(data) {
+    console.log("Hooray!");
+    $('.answer-vote-btn').attr("disabled");
+    $('.answer-vote-count').html(data);
+}
+
+answerVote.addEventListener('click', addAnswerVote);
 
 
-answer.edited_at | pacific
+
+<p>
+              Current Votes:
+              <span class="answer-vote-count">{{ answer.answer_votes | length }}</span>
+            </p>
+
+              <button {% if answer.user.user_id in answer.answer_votes %} disabled {% endif %}
+                      id="answer-vote"
+                      class="answer-vote-btn" 
+                      data-default-text="Vote This Answer Up!"
+                      data-alt-text="Thanks for Voting">
+                <span class="icon"></span> 
+                <span class="text">Vote This Question Up!</span>
+              </button>
 
 
-pacific.normalize(dt)
-dt is the utc timezone
 
-mine: 2017-07-05 01:21:17.045781+00
-reddit: 2017-01-03 05:30:18+00
+@app.route("/answer_vote/<question_id>.json", methods=['POST'])
+def calculates_answer_vote(question_id):
+    """Calculates number of votes a answer has accrued."""
 
-dom try: 2017-01-25 22:37:48.100000
-1483315661
-        converted_utc = datetime.utcfromtimestamp(float(1483315661))
-
-
-Thursday 06, July 2017 10:30PM        
-
-
-user_id = session.get("user_id")
+    user_id = session.get("user_id")
     if not user_id:
         raise Exception("No user logged in.")
 
-    question = Question.query.get(question_id)
+    answer = Answer.query.get(question_id)
+    answer_voting = answer.answer_votes
+    answer_vote_count = len(answer.answer_votes)
 
+    if AnswerVotes.query.filter(AnswerVotes.answer_id == answer_id, 
+                                    AnswerVotes.user_id == user_id).first():
 
-    answer = request.form.get("user_answer")
-    if answer:
-        new_answer = Answer(user_id=user_id, question_id=question_id, body=answer)
-        flash("Answer added.")
-        db.session.add(new_answer)
+        flash("You've already voted for this question.")
+
+    else:
+        new_answer_vote = AnswerVotes(user_id=user_id,
+                                        question_id=question_id,
+                                        answer_id=answer_id)
+        answer_vote_count += 1
+        db.session.add(new_answer_vote)
         db.session.commit()
 
-        the_time = question.created_at.ctime()
-
-        return render_template('question_info_page.html', 
-                        question=question, answer=new_answer, created_at=the_time)
-
-
-    edited_answer = request.form.get("updated_answer")
-    if edited_answer:
-
-        answer = Answer.query.filter(Answer.user_id == user_id, Answer.question_id == question_id).one()
-        answer.body = edited_answer
-
-        flash("Answer updated.")
-        db.session.commit()
-
-        the_time = question.created_at.ctime()
-
-        return render_template('question_info_page.html', 
-                        question=question, answer=answer.body, created_at=the_time)
+    return jsonify(answer_vote_count)

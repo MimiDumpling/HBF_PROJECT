@@ -16,15 +16,18 @@
 
           <p>
             Current Votes:
-            <span class="question-vote-count">0</span>
+            <span class="question-vote-count">{{ question.question_votes | length }}</span>
           </p>
-          <button
-                  id="question-vote"
-                  class="question-vote-btn" 
-                  data-default-text="Vote This Question Up!"
-                  data-alt-text="Thanks for Voting">
-            <span class="icon"></span> <span class="text">Vote This Question Up!</span>
-          </button>
+
+              <button {% if question.user.user_id in question.question_votes %} disabled {% endif %}
+                      id="question-vote"
+                      class="question-vote-btn" 
+                      data-default-text="Vote This Question Up!"
+                      data-alt-text="Thanks for Voting">
+                <span class="icon"></span> 
+                <span class="text">Vote This Question Up!</span>
+              </button>
+            
 
     {% if question.answers %}
       <ul>
@@ -43,14 +46,7 @@
 
             <p>Answer: {{ answer.body }}</p>
 
-              <p class="answer-vote-count">0</p>
-              <button
-                      id="answer-vote"
-                      class="answer-vote-btn" 
-                      data-default-text="Vote This Answer Up!"
-                      data-alt-text="Thanks for Voting">
-                <span class="icon"></span> <span class="text">Vote This Answer Up!</span>
-              </button>
+            
 
           </li>
         {% endfor %}
