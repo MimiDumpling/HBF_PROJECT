@@ -96,7 +96,7 @@ def creates_new_question():
                             created_at=the_time)
 
 
-@app.route("/questions/<question_id>")
+@app.route("/questions/<question_id>", methods=['GET'])
 def makes_question_info_page(question_id):
     """Makes a question info page."""
 
@@ -123,7 +123,8 @@ def converts_to_pacific(time):
 @app.route("/questions/<question_id>", methods=['POST'])
 def updates_question_info_page(question_id):
     """Updates question info page with a new answer."""
-
+    print "+++++++++++++++++++++++++++++"
+    print "HELLOOOOOOO"
     user_id = session.get("user_id")
     if not user_id:
         raise Exception("No user logged in.")
@@ -142,11 +143,6 @@ def updates_question_info_page(question_id):
         flash("Answer added.")
 
         the_time = new_answer.created_at
-        
-        return render_template('question_info_page.html', 
-                        question=question, 
-                        answer=new_answer, 
-                        created_at=the_time)
 
     elif edited_answer:
         answer = Answer.query.filter(Answer.user_id == user_id, 
@@ -156,10 +152,8 @@ def updates_question_info_page(question_id):
 
         db.session.commit()
         flash("Answer updated.")
-        
-        return render_template('question_info_page.html', 
-                        question=question,
-                        answer=answer)
+    
+    return redirect("/questions/" + question_id)
 
 
 @app.route("/question_vote/<question_id>.json", methods=['POST'])
@@ -210,8 +204,8 @@ def calculates_answer_vote(answer_id):
         new_answer_vote = AnswerVotes(user_id=user_id,
                                         answer_id=answer_id)
         answer_vote_count += 1
-        db.session.add(new_answer_vote)
-        db.session.commit()
+        # db.session.add(new_answer_vote)
+        # db.session.commit()
 
     return jsonify(answer_vote_count)
 

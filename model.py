@@ -39,6 +39,8 @@ class Answer(db.Model):
     # Define relationship to question
     question = db.relationship("Question", backref=db.backref("answers"))
 
+    answer_votes = db.relationship("AnswerVotes", backref=db.backref("answer"))
+
     def __repr__(self):
         """Provide helpful representation when printed."""
 
@@ -96,7 +98,6 @@ class AnswerVotes(db.Model):
     user = db.relationship("User", backref=db.backref("answer_votes", order_by=answer_id))
 
     # Define relationship to answer
-    answer = db.relationship("Answer", backref=db.backref("answer_votes"))
 
 
 ##############################################################################

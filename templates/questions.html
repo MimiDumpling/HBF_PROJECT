@@ -11,11 +11,9 @@
   <h2>Questions</h2>
   <ul>
   {% for question in questions %}
-    {% if question.answers %}
       <li>
         <a href="/questions/{{ question.question_id }}">{{ question.title }}</a>
       </li>
-    {% endif %}   
   {% endfor %}
   </ul>
 </div>
