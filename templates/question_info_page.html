@@ -33,7 +33,6 @@
       <ul>
         {% for answer in question.answers %}
           <li>
-            <span id="answer_id" data-answer-id="{{ answer.answer_id }}"></span>
 
             <p>Answered By: {{answer.user.user_name}}</p>
             <p>Answered Date/Time: {{ (answer.created_at | pacific) }}</p>
@@ -45,8 +44,22 @@
             {% endif %}
 
             <p>Answer: {{ answer.body }}</p>
+            <p>
+              Current Votes:
+              <span class="answer-vote-count" data-answer-id="{{ answer.answer_id }}">
+                {{ answer.answer_votes | length }}
+              </span>
+            </p>
 
-            
+            <button {% if answer.user.user_id in answer.answer_votes %} disabled {% endif %}
+                    id="answer-vote"
+                    class="answer-vote-btn" 
+                    data-answer-id="{{ answer.answer_id }}"
+                    data-default-text="Vote This Answer Up!"
+                    data-alt-text="Thanks for Voting">
+              <span class="icon"></span> 
+              <span class="text">Vote This Answer Up!</span>
+            </button>
 
           </li>
         {% endfor %}

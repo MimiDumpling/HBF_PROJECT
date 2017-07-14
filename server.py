@@ -189,7 +189,31 @@ def calculates_question_vote(question_id):
     return jsonify(question_vote_count)
 
 
-    
+@app.route("/answer_vote/<answer_id>.json", methods=['POST'])
+def calculates_answer_vote(answer_id):
+    """Calculates number of votes a answer has accrued."""
+
+    user_id = session.get("user_id")
+    if not user_id:
+        raise Exception("No user logged in.")
+
+    answer = Answer.query.get(answer_id)
+    answer_voting = answer.answer_votes
+    answer_vote_count = len(answer.answer_votes)
+
+    if AnswerVotes.query.filter(AnswerVotes.answer_id == answer_id, 
+                                    AnswerVotes.user_id == user_id).first():
+
+        flash("You've already voted for this answer.")
+
+    else:
+        new_answer_vote = AnswerVotes(user_id=user_id,
+                                        answer_id=answer_id)
+        answer_vote_count += 1
+        db.session.add(new_answer_vote)
+        db.session.commit()
+
+    return jsonify(answer_vote_count)
 
 
 if __name__ == "__main__":
