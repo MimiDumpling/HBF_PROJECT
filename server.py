@@ -96,6 +96,13 @@ def creates_new_question():
                             created_at=the_time)
 
 
+@app.route("/search", methods=['POST'])
+def searches_words_in_questions():
+    """Takes user's inputed words and searches in question titles."""
+
+    return render_template('search_results.html')
+
+
 @app.route("/questions/<question_id>", methods=['GET'])
 def makes_question_info_page(question_id):
     """Makes a question info page."""
@@ -123,8 +130,7 @@ def converts_to_pacific(time):
 @app.route("/questions/<question_id>", methods=['POST'])
 def updates_question_info_page(question_id):
     """Updates question info page with a new answer."""
-    print "+++++++++++++++++++++++++++++"
-    print "HELLOOOOOOO"
+    
     user_id = session.get("user_id")
     if not user_id:
         raise Exception("No user logged in.")

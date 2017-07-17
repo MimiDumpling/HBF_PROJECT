@@ -2,10 +2,17 @@
 {% block body %}
 
 <div>
+
   <h2>Submit A Question</h2>
     <form action="/questions" method="POST">
       <textarea rows="8" cols="100" name="user_question"></textarea><br>
       <input type="submit" value="Submit">
+    </form><br>
+
+  <h3>Search</h3>
+    <form action="/search" method="POST">
+      <textarea cols="50" name="user_search"></textarea><br>
+      <input type="submit" value="Search">
     </form>
 
   <h2>Questions</h2>
