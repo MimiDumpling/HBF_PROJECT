@@ -101,15 +101,31 @@ def searches_words_in_questions():
     """Takes user's inputed words and searches in question titles."""
 
     user_search = request.form["user_search"]
-    search_words = user_search.split(" ")
+    user_words = user_search.split(" ")
     questions = Question.query.order_by(Question.title).all()
-    phrase = []
+    search_words = []
     search_results = []
 
+    for word in user_words:
+        word = word.lower()
+        search_words.append(word)
+    print "++++++++++++++"
+    print "These are the search_words: ", search_words
+
     for question in questions:
-        words = question.title.split(" ")
-        for word in words:
-            if word in search_words:
+        phrase = []
+        words = []
+        split_words = question.title.split(" ")
+
+        for word in split_words:
+            word = word.lower()
+            words.append(word)
+
+            for word in words:
+                if word.lower() in search_words:
+                    phrase.append(word)
+
+            if set(phrase) == set(search_words):
                 search_results.append(question)
 
     return render_template('search_results.html',
