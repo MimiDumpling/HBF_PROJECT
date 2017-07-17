@@ -121,12 +121,12 @@ def searches_words_in_questions():
             word = word.lower()
             words.append(word)
 
-            for word in words:
-                if word.lower() in search_words:
-                    phrase.append(word)
+        for word in words:
+            if word.lower() in search_words:
+                phrase.append(word)
 
-            if set(phrase) == set(search_words):
-                search_results.append(question)
+        if set(phrase) == set(search_words):
+            search_results.append(question)
 
     return render_template('search_results.html',
                             search_results=search_results,
