@@ -100,7 +100,21 @@ def creates_new_question():
 def searches_words_in_questions():
     """Takes user's inputed words and searches in question titles."""
 
-    return render_template('search_results.html')
+    user_search = request.form["user_search"]
+    search_words = user_search.split(" ")
+    questions = Question.query.order_by(Question.title).all()
+    phrase = []
+    search_results = []
+
+    for question in questions:
+        words = question.title.split(" ")
+        for word in words:
+            if word in search_words:
+                search_results.append(question)
+
+    return render_template('search_results.html',
+                            search_results=search_results,
+                            questions=questions)
 
 
 @app.route("/questions/<question_id>", methods=['GET'])

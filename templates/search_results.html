@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block body %}
+
+<div>
+
+  <h2>Search Results</h2>
+  <ul>
+  {% for question in search_results %}
+      <li>
+        <a href="/questions/{{ question.question_id }}">{{ question.title }}</a>
+      </li>
+  {% endfor %}
+  </ul>
+</div>
+{% endblock %}
