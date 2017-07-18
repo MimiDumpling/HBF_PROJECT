@@ -18,10 +18,7 @@
 "will", "my", "one", "all", "would", "there", "their"]
 
 
-<div>
-		<canvas id="words-line"></canvas>
-		<div id="lineLegend" class="chart-legend"></div>
-	</div>	
+
 
 	<script>
 

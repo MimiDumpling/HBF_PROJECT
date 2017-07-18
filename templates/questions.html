@@ -1,9 +1,19 @@
 {% extends 'base.html' %}
 {% block body %}
+<div>
+  {% if "user_id" in session %}
+    <!-- <li><a href="/user_page/{{ session['user_id'] }}">Profile</a></li> -->
+    <a href="/logout">Logout</a>
+  {% else %}
+    <!-- <li><a href="/register">Register</a></li> -->
+    <a href="/login">Login</a>
+  {% endif %}
+</div>
 
 <div>
 
   <h2>Submit A Question</h2>
+  <p>Would you like to submit a question? Great! Please avoid soapboxing and loaded questions. Low effort content will be removed per moderator discretion.</p>
     <form action="/questions" method="POST">
       <textarea rows="8" cols="100" name="user_question"></textarea><br>
       <input type="submit" value="Submit">

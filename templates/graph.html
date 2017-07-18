@@ -1,5 +1,17 @@
 {% extends 'base.html' %}
 {% block body %}
+<div>
+  {% if "user_id" in session %}
+    <!-- <li><a href="/user_page/{{ session['user_id'] }}">Profile</a></li> -->
+    <a href="/logout">Logout</a>
+  {% else %}
+    <!-- <li><a href="/register">Register</a></li> -->
+    <a href="/login">Login</a>
+  {% endif %}
+</div>
+
+<a href="/questions">Questions</a>
+
 
 <h2>Trending Words</h2><br>
 <h3><center>January 2017</center></h3>
@@ -22,7 +34,6 @@
 
 		// make radar chart of trending words
 		var ctx = $("#words-radar").get(0).getContext("2d");
-		//document.getElementById("words-radar");
 
 		$.get("/graph-radar.json", function (data) {
 			var myRadarChart = new Chart(ctx, {
@@ -35,7 +46,6 @@
 
 		// make line chart of trending words
     	var ctx_line = $("#words-line").get(0).getContext("2d");
-    	//document.getElementById("words-line");
 
 		$.get("/graph-line.json", function (data){
 			var myLineChart = new Chart(ctx_line, {
@@ -45,7 +55,7 @@
 			});
 			$('#lineLegend').html(myLineChart.generateLegend());
 		});		
-						
+
 	</script>
 
 
