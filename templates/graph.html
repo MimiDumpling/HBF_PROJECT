@@ -5,23 +5,47 @@
 <h3><center>January 2017</center></h3>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 
-	<div>
+	<div class="words-chart">
 		<canvas id="words-radar"></canvas>
 		<div id="radarLegend" class="chart-legend"></div>
 	</div>
 
+	<div class="words-chart">
+		<canvas id="words-line"></canvas>
+		<div id="lineLegend" class="chart-legend"></div>
+	</div>	
+
 	<script>
+		var options = {
+	      responsive: true
+	    };
 
-		var ctx = document.getElementById("words-radar");
+		// make radar chart of trending words
+		var ctx = $("#words-radar").get(0).getContext("2d");
+		//document.getElementById("words-radar");
 
-		$.get("/graph.json", function (data) {
+		$.get("/graph-radar.json", function (data) {
 			var myRadarChart = new Chart(ctx, {
 			    type: 'radar',
 			    data: data,
 			    options: {}
 			});
 			$('#radarLegend').html(myRadarChart.generateLegend());
-    	});						
+    	});
+
+		// make line chart of trending words
+    	var ctx_line = $("#words-line").get(0).getContext("2d");
+    	//document.getElementById("words-line");
+
+		$.get("/graph-line.json", function (data){
+			var myLineChart = new Chart(ctx_line, {
+				type: 'line',
+				data: data,
+				options: {}
+			});
+			$('#lineLegend').html(myLineChart.generateLegend());
+		});		
+						
 	</script>
 
 
