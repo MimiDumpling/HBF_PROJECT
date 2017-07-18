@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 {% block body %}
 
-<h2>Trending Words</h2>
+<h2>Trending Words</h2><br>
+<h3><center>January 2017</center></h3>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 
 	<div>
@@ -22,5 +23,6 @@
 			$('#radarLegend').html(myRadarChart.generateLegend());
     	});						
 	</script>
+
 
 {% endblock %}

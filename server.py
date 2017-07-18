@@ -186,7 +186,7 @@ def parse_trending_words():
                 "will", "my", "one", "all", "would", "there", "their", "what",
                 "is", "how", "are", "if", "why", "was", "does", "we", "can", "did",
                 "i", "has", "just", "us", "could", "who", "trump's", "been", "more",
-                "so"]
+                "so", "donald", "new", "think", "people"]
     # sorts the dictionary by value            
     sorted_word_freq_1 = sorted(word_freq_1, key=word_freq_1.get, reverse=True)
     trending_1 = []
@@ -241,20 +241,20 @@ def parse_trending_words():
     freqs_1 = list(map(lambda x: word_freq_1[x], freq_trends_1))
     freqs_2 = list(map(lambda x: word_freq_2[x], freq_trends_2))
 
-    data_dict = {
+    data_dict_1 = {
         "labels": trending_1[:7],
         "datasets": [
             {
-                "label": "Week 1",
+                "label": "1/1 - 1/15",
                 "fill": True,
                 "lineTension": 0.5,
-                "backgroundColor": "rgba(255, 99, 132, 0.2)",
+                "backgroundColor": "rgba(255, 99, 132, 0.4)",
                 "borderColor":"rgb(255, 99, 132)",
-                "borderCapStyle": 'butt',
+                "borderCapStyle": 'round',
                 "borderDash": [],
                 "borderDashOffset": 0.0,
                 "borderJoinStyle": 'miter',
-                "pointBorderColor": "rgba(220,220,220,1)",
+                "pointBorderColor": "rgba(0,0,0,1)",
                 "pointBackgroundColor": "#fff",
                 "pointBorderWidth": 1,
                 "pointHoverRadius": 5,
@@ -266,16 +266,16 @@ def parse_trending_words():
                 "data": freqs_1,
                 "spanGaps": False
             }, {
-                "label": "Week 2",
+                "label": "1/16 - 1/31",
                 "fill": True,
                 "lineTension": 0.5,
-                "backgroundColor": "rgba(220,220,220,0.2)",
-                "borderColor": "rgba(220,220,220,1)",
-                "borderCapStyle": 'butt',
+                "backgroundColor": "rgba(0,0,255,0.2)",
+                "borderColor": "rgba(255,0,255,0.4)",
+                "borderCapStyle": 'round',
                 "borderDash": [],
                 "borderDashOffset": 0.0,
                 "borderJoinStyle": 'miter',
-                "pointBorderColor": "rgba(220,220,220,1)",
+                "pointBorderColor": "rgba(0,0,0,1)",
                 "pointBackgroundColor": "#fff",
                 "pointBorderWidth": 1,
                 "pointHoverRadius": 5,
@@ -290,7 +290,56 @@ def parse_trending_words():
         ]
     }
 
-    return jsonify(data_dict)
+    # data_dict_2 = {
+    #     "labels": trending_1[:7],
+    #     "datasets": [
+    #         {
+    #             "label": "1/1 - 1/15",
+    #             "fill": True,
+    #             "lineTension": 0.5,
+    #             "backgroundColor": "rgba(255, 99, 132, 0.4)",
+    #             "borderColor":"rgb(255, 99, 132)",
+    #             "borderCapStyle": 'round',
+    #             "borderDash": [],
+    #             "borderDashOffset": 0.0,
+    #             "borderJoinStyle": 'miter',
+    #             "pointBorderColor": "rgba(0,0,0,1)",
+    #             "pointBackgroundColor": "#fff",
+    #             "pointBorderWidth": 1,
+    #             "pointHoverRadius": 5,
+    #             "pointHoverBackgroundColor": "#fff",
+    #             "pointHoverBorderColor": "rgba(220,220,220,1)",
+    #             "pointHoverBorderWidth": 2,
+    #             "pointRadius": 3,
+    #             "pointHitRadius": 10,
+    #             "data": freqs_1,
+    #             "spanGaps": False
+    #         }, {
+    #             "label": "1/16 - 1/31",
+    #             "fill": True,
+    #             "lineTension": 0.5,
+    #             "backgroundColor": "rgba(0,0,255,0.2)",
+    #             "borderColor": "rgba(255,0,255,0.4)",
+    #             "borderCapStyle": 'round',
+    #             "borderDash": [],
+    #             "borderDashOffset": 0.0,
+    #             "borderJoinStyle": 'miter',
+    #             "pointBorderColor": "rgba(0,0,0,1)",
+    #             "pointBackgroundColor": "#fff",
+    #             "pointBorderWidth": 1,
+    #             "pointHoverRadius": 5,
+    #             "pointHoverBackgroundColor": "#fff",
+    #             "pointHoverBorderColor": "rgba(220,220,220,1)",
+    #             "pointHoverBorderWidth": 2,
+    #             "pointRadius": 3,
+    #             "pointHitRadius": 10,
+    #             "data": freqs_2,
+    #             "spanGaps": False
+    #         }
+    #     ]
+    # }
+
+    return jsonify(data_dict_1)
 
 
 @app.route("/questions/<question_id>", methods=['GET'])

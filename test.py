@@ -16,3 +16,24 @@
 "after", "the", "and", "a", "that", "I", "it", "not", "he", "as",
 "you", "this", "but", "his", "they", "her", "she", "or", "an", 
 "will", "my", "one", "all", "would", "there", "their"]
+
+
+<div>
+		<canvas id="words-line"></canvas>
+		<div id="lineLegend" class="chart-legend"></div>
+	</div>	
+
+	<script>
+
+		var ctx_line = document.getElementById("words-line");
+
+		$.get("/graph.json", function (data){
+			var myLineChart = new Chart(ctx, {
+				type: 'radar',
+				data: data,
+				options: {}
+			});
+			$('#lineLegend').html(myLineChart.generateLegend());
+		});
+
+	</script>
