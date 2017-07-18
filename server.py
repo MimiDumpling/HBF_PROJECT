@@ -109,9 +109,7 @@ def searches_words_in_questions():
     for word in user_words:
         word = word.lower()
         search_words.append(word)
-    print "++++++++++++++"
-    print "These are the search_words: ", search_words
-
+    
     for question in questions:
         phrase = []
         words = []
@@ -131,6 +129,124 @@ def searches_words_in_questions():
     return render_template('search_results.html',
                             search_results=search_results,
                             questions=questions)
+
+
+@app.route("/graph.json")
+def graphs_trending_words():
+    """Displays graph of trending words in question titles."""
+    print "+++++++++++++++"
+    print "Hey, it's working"
+
+    questions = Question.query.order_by(Question.title).all()
+    month_to_15 = []
+    month_past_15 = []
+
+    for question in questions:
+        formated_time = question.created_at.strftime("%A %d, %B %Y %I:%M%p")
+        split_time = formated_time.split(" ")
+        date = split_time[1]
+        split_date = date.split(",")
+        date_num = int(split_date[0])
+
+        if date_num < 16:
+            month_to_15.append(question.title)
+        else:
+            month_past_15.append(question.title)
+
+    # begin finding trending words for first half of month         
+    word_freq_1 = {}
+    words_1 = []
+
+    for title in month_to_15:
+        split_title = title.split(" ")
+
+        for word in split_title:
+            word = word.lower()
+            words_1.append(word)
+
+    for word in words_1:
+        if word in word_freq_1:
+            word_freq_1[word] += 1
+        else:
+            word_freq_1[word] = 1
+
+    dict_counter = 0
+    ignore = ["way", "day", "thing", "be", "have", "do", "say", "get", "make", 
+                "go", "know", "use", "tell", "ask", "seem", "to", "of", "in", "for",
+                "on", "with", "at", "by", "from", "up", "about", "into", "over", 
+                "after", "the", "and", "a", "that", "I", "it", "not", "he", "as",
+                "you", "this", "but", "his", "they", "her", "she", "or", "an", 
+                "will", "my", "one", "all", "would", "there", "their", "what",
+                "is", "how", "are", "if", "why", "was", "does", "we", "can", "did",
+                "i", "has", "just", "us", "could", "who", "trump's", "been", "more",
+                "so"]
+    # sorts the dictionary by value            
+    sorted_word_freq_1 = sorted(word_freq_1, key=word_freq_1.get, reverse=True)
+    trending_1 = []
+
+    for word in sorted_word_freq_1:
+        if word not in ignore:
+            trending_1.append(word)
+
+    print "Beginning of month trending 7 words: ", trending_1[:7]
+
+    # begin finding trending words for second half of month
+    word_freq_2 = {}
+    words_2 = []
+
+    for title in month_past_15:
+        split_title = title.split(" ")
+
+        for word in split_title:
+            word = word.lower()
+            words_2.append(word)
+
+    for word in words_2:
+        if word in word_freq_2:
+            word_freq_2[word] += 1
+        else:
+            word_freq_2[word] = 1
+
+    # sorts the dictionary by value
+    sorted_word_freq_2 = sorted(word_freq_2, key=word_freq_2.get, reverse=True)
+    trending_2 = []
+
+    for word in sorted_word_freq_2:
+        if word not in ignore:
+            trending_2.append(word)
+
+    print "2nd half of month trending 7 words: ", trending_2[:7]
+
+    trending = set(trending_1[:7] + trending_2[:7])
+    print "TRENDING: ", trending
+
+    data_dict = {}
+    #     "labels": trending_1[:7],
+    #     "datasets": [
+    #         {
+    #             "label": trending_1[0],
+    #             "fill": True,
+    #             "lineTension": 0.5,
+    #             "backgroundColor": "rgba(220,220,220,0.2)",
+    #             "borderColor": "rgba(220,220,220,1)",
+    #             "borderCapStyle": 'butt',
+    #             "borderDash": [],
+    #             "borderDashOffset": 0.0,
+    #             "borderJoinStyle": 'miter',
+    #             "pointBorderColor": "rgba(220,220,220,1)",
+    #             "pointBackgroundColor": "#fff",
+    #             "pointBorderWidth": 1,
+    #             "pointHoverRadius": 5,
+    #             "pointHoverBackgroundColor": "#fff",
+    #             "pointHoverBorderColor": "rgba(220,220,220,1)",
+    #             "pointHoverBorderWidth": 2,
+    #             "pointRadius": 3,
+    #             "pointHitRadius": 10,
+    #             "data": [65, 59, 80, 81, 56, 55, 40],
+    #             "spanGaps": False},
+    # }
+
+    return jsonify(data_dict)
 
 
 @app.route("/questions/<question_id>", methods=['GET'])

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block body %}
+
+<h2>Trending Words</h2>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js" />
+
+	<div>
+		<canvas id="words-radar"></canvas>
+	</div>
+
+	<script>
+		var myRadarChart = new Chart(ctx, {
+		    type: 'radar',
+		    data: data,
+		    options: options
+		});
+	</script>
+
+{% endblock %}
