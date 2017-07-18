@@ -131,9 +131,16 @@ def searches_words_in_questions():
                             questions=questions)
 
 
-@app.route("/graph.json")
+@app.route("/graph")
 def graphs_trending_words():
     """Displays graph of trending words in question titles."""
+
+    return render_template('graph.html')
+
+
+@app.route("/graph.json")
+def parse_trending_words():
+    """parses trending words from question titles."""
     print "+++++++++++++++"
     print "Hey, it's working"
 
@@ -220,31 +227,68 @@ def graphs_trending_words():
     trending = set(trending_1[:7] + trending_2[:7])
     print "TRENDING: ", trending
 
-    data_dict = {}
-    #     "labels": trending_1[:7],
-    #     "datasets": [
-    #         {
-    #             "label": trending_1[0],
-    #             "fill": True,
-    #             "lineTension": 0.5,
-    #             "backgroundColor": "rgba(220,220,220,0.2)",
-    #             "borderColor": "rgba(220,220,220,1)",
-    #             "borderCapStyle": 'butt',
-    #             "borderDash": [],
-    #             "borderDashOffset": 0.0,
-    #             "borderJoinStyle": 'miter',
-    #             "pointBorderColor": "rgba(220,220,220,1)",
-    #             "pointBackgroundColor": "#fff",
-    #             "pointBorderWidth": 1,
-    #             "pointHoverRadius": 5,
-    #             "pointHoverBackgroundColor": "#fff",
-    #             "pointHoverBorderColor": "rgba(220,220,220,1)",
-    #             "pointHoverBorderWidth": 2,
-    #             "pointRadius": 3,
-    #             "pointHitRadius": 10,
-    #             "data": [65, 59, 80, 81, 56, 55, 40],
-    #             "spanGaps": False},
-    # }
+    freq_trends_1 = trending_1[:7]
+    freq_trends_2 = trending_2[:7]
+
+    # top 7 word frequencies. Ex) [166, 52, 36, 32, 27, 23, 21]
+    # map(takes 2 args) loops thru a list and returns a new list
+        # the new list is a result of a function (lambda) being used on the first list
+    # lambda is an inline function that runs on every loop and x is the parameter
+        # x is the current item in the list
+
+    # lambda x: value from word_freq_1, map is looping over first 7 words (freq_trends_1)
+    # map (function, list)
+    freqs_1 = list(map(lambda x: word_freq_1[x], freq_trends_1))
+    freqs_2 = list(map(lambda x: word_freq_2[x], freq_trends_2))
+
+    data_dict = {
+        "labels": trending_1[:7],
+        "datasets": [
+            {
+                "label": "Week 1",
+                "fill": True,
+                "lineTension": 0.5,
+                "backgroundColor": "rgba(255, 99, 132, 0.2)",
+                "borderColor":"rgb(255, 99, 132)",
+                "borderCapStyle": 'butt',
+                "borderDash": [],
+                "borderDashOffset": 0.0,
+                "borderJoinStyle": 'miter',
+                "pointBorderColor": "rgba(220,220,220,1)",
+                "pointBackgroundColor": "#fff",
+                "pointBorderWidth": 1,
+                "pointHoverRadius": 5,
+                "pointHoverBackgroundColor": "#fff",
+                "pointHoverBorderColor": "rgba(220,220,220,1)",
+                "pointHoverBorderWidth": 2,
+                "pointRadius": 3,
+                "pointHitRadius": 10,
+                "data": freqs_1,
+                "spanGaps": False
+            }, {
+                "label": "Week 2",
+                "fill": True,
+                "lineTension": 0.5,
+                "backgroundColor": "rgba(220,220,220,0.2)",
+                "borderColor": "rgba(220,220,220,1)",
+                "borderCapStyle": 'butt',
+                "borderDash": [],
+                "borderDashOffset": 0.0,
+                "borderJoinStyle": 'miter',
+                "pointBorderColor": "rgba(220,220,220,1)",
+                "pointBackgroundColor": "#fff",
+                "pointBorderWidth": 1,
+                "pointHoverRadius": 5,
+                "pointHoverBackgroundColor": "#fff",
+                "pointHoverBorderColor": "rgba(220,220,220,1)",
+                "pointHoverBorderWidth": 2,
+                "pointRadius": 3,
+                "pointHitRadius": 10,
+                "data": freqs_2,
+                "spanGaps": False
+            }
+        ]
+    }
 
     return jsonify(data_dict)
 
