@@ -31,11 +31,9 @@
   <ul>
    
     {% for question in questions %}
-      {% if question.answers %} 
-        <li>
-          <a href="/questions/{{ question.question_id }}">{{ question.title }}</a>
-        </li>
-      {% endif %}
+      <li>
+        <a href="/questions/{{ question.question_id }}">{{ question.title }}</a>
+      </li>
     {% endfor %}
   
   </ul>
