@@ -14,8 +14,11 @@
 
 
 <h2>Trending Words</h2><br>
+
 <h3><center>January 2017</center></h3>
+
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+
 
 	<div class="words-chart">
 		<canvas id="words-radar"></canvas>
@@ -25,7 +28,13 @@
 	<div class="words-chart">
 		<canvas id="words-line"></canvas>
 		<div id="lineLegend" class="chart-legend"></div>
-	</div>	
+	</div>
+
+	<div class="answers-chart">
+		<canvas id="answers-radar"></canvas>
+		<div id="answersLegend" class="chart-legend"></div>
+	</div>
+
 
 	<script>
 		var options = {
@@ -54,7 +63,19 @@
 				options: {}
 			});
 			$('#lineLegend').html(myLineChart.generateLegend());
-		});		
+		});	
+
+		// make radar chart of trending words
+		// var ctx_answers = $("#answers-radar").get(0).getContext("2d");
+
+		// $.get("/answers-radar.json", function (data) {
+		// 	var myAnswersRadarChart = new Chart(ctx, {
+		// 	    type: 'radar',
+		// 	    data: data,
+		// 	    options: {}
+		// 	});
+		// 	$('#answersLegend').html(myAnswersRadarChart.generateLegend());
+  //   	});	
 
 	</script>
 

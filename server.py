@@ -218,8 +218,6 @@ def trending_words_radar():
         if word not in ignore:
             trending_1.append(word)
 
-    print "Beginning of month trending 7 words: ", trending_1[:7]
-
     # begin finding trending words for second half of month
     word_freq_2 = {}
     words_2 = []
@@ -244,11 +242,6 @@ def trending_words_radar():
     for word in sorted_word_freq_2:
         if word not in ignore:
             trending_2.append(word)
-
-    print "2nd half of month trending 7 words: ", trending_2[:7]
-
-    trending = set(trending_1[:7] + trending_2[:7])
-    print "TRENDING: ", trending
 
     freq_trends_1 = trending_1[:7]
     freq_trends_2 = trending_2[:7]
@@ -315,6 +308,7 @@ def trending_words_radar():
 
     return jsonify(data_dict_1)
 
+
 @app.route("/graph-line.json")
 def trending_words_line():
     """Parses out trending words and displays them in a line chart."""
@@ -369,8 +363,6 @@ def trending_words_line():
         if word not in ignore:
             trending_1.append(word)
 
-    print "Beginning of month trending 7 words: ", trending_1[:7]
-
     # begin finding trending words for second half of month
     word_freq_2 = {}
     words_2 = []
@@ -396,10 +388,8 @@ def trending_words_line():
         if word not in ignore:
             trending_2.append(word)
 
-    print "2nd half of month trending 7 words: ", trending_2[:7]
-
+    # nice to have this, but can't jsonify a set()
     trending = set(trending_1[:7] + trending_2[:7])
-    print "TRENDING: ", trending
 
     freq_trends_1 = trending_1[:7]
     freq_trends_2 = trending_2[:7]
@@ -465,6 +455,87 @@ def trending_words_line():
     }
 
     return jsonify(data_dict_2)
+
+
+# @app.route("/answers-radar.json")
+# def displays_radar_chart():
+#     """Parses answers for trending words and displays them in a radar chart."""
+
+#     print "++++++++++++++++++++++++"
+#     print "IT'S WORKING"
+
+#     answers = Answer.query.order_by(Answer.body).all()
+#     jan = []
+#     july = []
+
+#     for answer in answers:
+#         formated_time = answer.created_at.strftime("%A %d, %B %Y %I:%M%p")
+#         split_time = formated_time.split(" ")
+#         month = split_time[2]
+
+#         if month == "January":
+#             jan.append(answer.body)
+#         else:
+#             july.append(answer.body)
+
+#     # begin finding trending words for jan-feb         
+#     word_freq_1 = {}
+#     words_1 = []
+
+#     for text in jan:
+#         split_text = text.split(" ")
+
+#         for word in split_text:
+#             word = word.lower()
+#             words_1.append(word)
+
+#     for word in words_1:
+#         if word in word_freq_1:
+#             word_freq_1[word] += 1
+#         else:
+#             word_freq_1[word] = 1
+
+#     dict_counter = 0
+#     ignore = ["way", "day", "thing", "be", "have", "do", "say", "get", "make", 
+#                 "go", "know", "use", "tell", "ask", "seem", "to", "of", "in", "for",
+#                 "on", "with", "at", "by", "from", "up", "about", "into", "over", 
+#                 "after", "the", "and", "a", "that", "I", "it", "not", "he", "as",
+#                 "you", "this", "but", "his", "they", "her", "she", "or", "an", 
+#                 "will", "my", "one", "all", "would", "there", "their", "what",
+#                 "is", "how", "are", "if", "why", "was", "does", "we", "can", "did",
+#                 "i", "has", "just", "us", "could", "who", "trump's", "been", "more",
+#                 "so", "donald", "new", "think", "people"]
+
+#     # sorts the dictionary by value            
+#     sorted_word_freq_1 = sorted(word_freq_1, key=word_freq_1.get, reverse=True)
+#     trending_1 = []
+
+#     for word in sorted_word_freq_1:
+#         if word not in ignore:
+#             trending_1.append(word)
+
+#     # begin finding trending words for second half of month
+#     word_freq_2 = {}
+#     words_2 = []
+
+#     for text in july:
+#         split_text = text.split(" ")
+
+#         for word in split_text:
+#             word = word.lower()
+#             words_2.append(word)
+
+#     for word in words_2:
+#         if word in word_freq_2:
+#             word_freq_2[word] += 1
+#         else:
+#             word_freq_2[word] = 1         
+
+#     print word_freq_2        
+
+#     data_dict3 = {}
+
+#     return jsonify(data_dict3)
 
 
 @app.route("/questions/<question_id>", methods=['GET'])

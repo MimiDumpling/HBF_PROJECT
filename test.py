@@ -10,27 +10,10 @@
     # Tuesday, January 31, 2017 11:59:59 PM
     stop = "1485907199"
 
-["way", "day", "thing", "be", "have", "do", "say", "get", "make", 
-"go", "know", "use", "tell", "ask", "seem", "to", "of", "in", "for",
-"on", "with", "at", "by", "from", "up", "about", "into", "over", 
-"after", "the", "and", "a", "that", "I", "it", "not", "he", "as",
-"you", "this", "but", "his", "they", "her", "she", "or", "an", 
-"will", "my", "one", "all", "would", "there", "their"]
-
-
-
-
-	<script>
-
-		var ctx_line = document.getElementById("words-line");
-
-		$.get("/graph.json", function (data){
-			var myLineChart = new Chart(ctx, {
-				type: 'radar',
-				data: data,
-				options: {}
-			});
-			$('#lineLegend').html(myLineChart.generateLegend());
-		});
-
-	</script>
+"""(https://www.reddit.com/r/PoliticalDiscussion/comments/4479er/rules_explanations_and_reminders/). 
+This is a subreddit for genuine discussion: * Don't post low effort comments like joke threads, memes, 
+slogans, or links without context. * Help prevent this subreddit from becoming an echo chamber. 
+Please don't downvote comments with which you disagree. * The downvote and report buttons 
+are not disagree buttons. Please don't use them that way. Violators will be fed to the bear. 
+--- *I am a bot, and this action was performed automatically. Please [contact the moderators 
+of this subreddit](/message/compose/?to=/r/PoliticalDiscussion) if you have any questions or concerns.*"""
