@@ -47,6 +47,31 @@ def process_login_form():
     return redirect("/questions")
 
 
+@app.route('/register', methods=['GET'])
+def register_form():
+    """Show form for user signup."""
+
+    return render_template("register_form.html")
+
+
+@app.route('/register', methods=['POST'])
+def register_process():
+    """Process registration."""
+
+    # Get form variables
+    email = request.form["email"]
+    password = request.form["password"]
+    user_name = request.form["user_name"]
+
+    new_user = User(email=email, password=password, user_name=user_name)
+
+    db.session.add(new_user)
+    db.session.commit()
+
+    flash("%s, you've been added. :) Please login." % user_name)
+    return redirect("/")
+
+
 @app.route('/logout')
 def logout():
     """Log out."""
