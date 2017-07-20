@@ -70,47 +70,47 @@ class FlaskTestsLogInLogOut(TestCase):
             self.assertIn('Logged Out.', result.data)
 
 
-class FlaskTestsDatabase(TestCase):
-    """Flask tests that use the database."""
+# class FlaskTestsDatabase(TestCase):
+#     """Flask tests that use the database."""
 
-    def setUp(self):
-        """Stuff to do before every test."""
+#     def setUp(self):
+#         """Stuff to do before every test."""
 
-        # Get the Flask test client
-        self.client = app.test_client()
-        app.config['TESTING'] = True
+#         # Get the Flask test client
+#         self.client = app.test_client()
+#         app.config['TESTING'] = True
 
-        # Connect to test database
-        connect_to_db(app, "postgresql:///testdb")
+#         # Connect to test database
+#         connect_to_db(app, "postgresql:///testdb")
 
-        # Create tables and add sample data
-        db.create_all()
-        example_data()
+#         # Create tables and add sample data
+#         db.create_all()
+#         example_data()
 
-    def tearDown(self):
-        """Do at end of every test."""
+#     def tearDown(self):
+#         """Do at end of every test."""
 
-        db.session.close()
-        db.drop_all()
+#         db.session.close()
+#         db.drop_all()
 
-    def test_questions_page(self):
-        """Test questions page."""
+#     def test_questions_page(self):
+#         """Test questions page."""
 
-        result = self.client.post("/questions")
-        self.assertIn("Is recycling pointless?", result.data)
+#         result = self.client.post("/questions")
+#         self.assertIn("Is recycling pointless?", result.data)
 
-    def test_question_details(self):
-        """Test question info page."""
+#     def test_question_details(self):
+#         """Test question info page."""
 
-        result = self.client.post("/questions/q1")
-        self.assertIn("Should we save the planet?", result.data)
+#         result = self.client.post("/questions/q1")
+#         self.assertIn("Should we save the planet?", result.data)
 
-    def test_answer(self):
-        """Test answer on specific question page."""
+#     def test_answer(self):
+#         """Test answer on specific question page."""
 
-        result = self.client.post("/questions/q2",
-                                  data={"user_id": 2})
-        self.assertIn("No, I disagree.", result.data)
+#         result = self.client.post("/questions/q2",
+#                                   data={"user_id": 2})
+#         self.assertIn("No, I disagree.", result.data)
 
 
 def example_data():

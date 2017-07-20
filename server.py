@@ -209,7 +209,7 @@ def trending_words_radar():
                 "will", "my", "one", "all", "would", "there", "their", "what",
                 "is", "how", "are", "if", "why", "was", "does", "we", "can", "did",
                 "i", "has", "just", "us", "could", "who", "trump's", "been", "more",
-                "so", "donald", "new", "think", "people"]
+                "so", "donald", "new", "think", "people", "any", "when"]
     # sorts the dictionary by value            
     sorted_word_freq_1 = sorted(word_freq_1, key=word_freq_1.get, reverse=True)
     trending_1 = []
@@ -258,7 +258,7 @@ def trending_words_radar():
     freqs_2 = list(map(lambda x: word_freq_2[x], freq_trends_2))
 
     data_dict_1 = {
-        "labels": trending_1[:7],
+        "labels": trending_1[:7] and trending_2[:7],
         "datasets": [
             {
                 "label": "1/1 - 1/15",
@@ -354,7 +354,7 @@ def trending_words_line():
                 "will", "my", "one", "all", "would", "there", "their", "what",
                 "is", "how", "are", "if", "why", "was", "does", "we", "can", "did",
                 "i", "has", "just", "us", "could", "who", "trump's", "been", "more",
-                "so", "donald", "new", "think", "people"]
+                "so", "donald", "new", "think", "people", "any", "when"]
     # sorts the dictionary by value            
     sorted_word_freq_1 = sorted(word_freq_1, key=word_freq_1.get, reverse=True)
     trending_1 = []
@@ -406,7 +406,7 @@ def trending_words_line():
     freqs_2 = list(map(lambda x: word_freq_2[x], freq_trends_2))
 
     data_dict_2 = {
-        "labels": trending_1[:7],
+        "labels": trending_1[:7] and trending_2[:7],
         "datasets": [
             {
                 "label": "1/1 - 1/15",
