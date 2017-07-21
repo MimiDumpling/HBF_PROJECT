@@ -5,7 +5,7 @@ from flask import session
 
 
 class FlaskTestsBasic(TestCase):
-    """Flask tests."""
+    """Tests all routes render, except login/logout."""
 
     def setUp(self):
         """Stuff to do before every test."""
@@ -15,13 +15,54 @@ class FlaskTestsBasic(TestCase):
 
         # Show Flask errors that happen during tests
         app.config['TESTING'] = True
+        app.config['SECRET_KEY'] = 'key'
+        self.client = app.test_client()
+
+        # Connect only to the demo db
+        connect_to_db(app, "postgresql:///testdb")
+
+        # Create tables and add sample data
+        db.create_all()
+        example_data()
+
+        with self.client as user:
+            with user.session_transaction() as sess:
+                sess['user_id'] = 1
+
+    def tearDown(self):
+        """Do at end of every test."""
+
+        db.session.close()
+        db.drop_all()
 
     def test_index(self):
-        """Test homepage page."""
+        """Test root page."""
+        # import pdb
+        # pdb.set_trace()
 
         result = self.client.get("/")
         self.assertIn('<h1><center>Learn, Share, Connect</center></h1>',
                          result.data)
+
+        print "DONE WITH INDEX CHECK"
+
+    def test_register_page(self):
+        """Test register route rendering."""
+
+        result = self.client.get('/register')
+        self.assertIn('<h1>Register</h1>', result.data)
+
+        print "DONE WITH REGISTER CHECK"
+
+    def test_questions_page(self):
+        """Test questions route rendering."""
+        # import pdb
+        # pdb.set_trace()
+
+        result = self.client.get('/questions')
+        self.assertIn('<h2>Submit A Question</h2>', result.data)
+
+        print "DONE WITH QUESTIONS PAGE CHECK"
 
 
 class FlaskTestsLogInLogOut(TestCase):
@@ -57,6 +98,8 @@ class FlaskTestsLogInLogOut(TestCase):
             self.assertEqual(session['user_id'], 1)
             self.assertIn("You are logged in", result.data)
 
+        print "DONE WITH LOGIN CHECK"
+
     def test_logout(self):
         """Test logout route."""
 
@@ -69,49 +112,7 @@ class FlaskTestsLogInLogOut(TestCase):
             self.assertNotIn('user_id', session)
             self.assertIn('Logged Out.', result.data)
 
-
-# class FlaskTestsDatabase(TestCase):
-#     """Flask tests that use the database."""
-
-#     def setUp(self):
-#         """Stuff to do before every test."""
-
-#         # Get the Flask test client
-#         self.client = app.test_client()
-#         app.config['TESTING'] = True
-
-#         # Connect to test database
-#         connect_to_db(app, "postgresql:///testdb")
-
-#         # Create tables and add sample data
-#         db.create_all()
-#         example_data()
-
-#     def tearDown(self):
-#         """Do at end of every test."""
-
-#         db.session.close()
-#         db.drop_all()
-
-#     def test_questions_page(self):
-#         """Test questions page."""
-
-#         result = self.client.post("/questions")
-#         self.assertIn("Is recycling pointless?", result.data)
-
-#     def test_question_details(self):
-#         """Test question info page."""
-
-#         result = self.client.post("/questions/q1")
-#         self.assertIn("Should we save the planet?", result.data)
-
-#     def test_answer(self):
-#         """Test answer on specific question page."""
-
-#         result = self.client.post("/questions/q2",
-#                                   data={"user_id": 2})
-#         self.assertIn("No, I disagree.", result.data)
-
+        print "DONE WITH LOGOUT CHECK"
 
 def example_data():
     """Create some sample data."""
@@ -126,15 +127,21 @@ def example_data():
     dog = User(user_name="Dog", email="dog@gmail.com", password="abc")
     horse = User(user_name="Horse", email="horse@gmail.com", password="abc")
 
-    answer_1 = Answer(question_id="q1", user_id=1, body="Yes, I agree.")
-    answer_2 = Answer(question_id="q2", user_id=2, body="No, I disagree.")
-    answer_3 = Answer(question_id="q3", user_id=3, body="Hrm, I'm indifferent.")
+    db.session.add_all([cat, dog, horse])
+    db.session.commit()
 
     question_1 = Question(question_id="q1", title="Should we save the planet?", description=" ", user_id=3)
     question_2 = Question(question_id="q2", title="Is recycling pointless?", description=" ", user_id=3)
     question_3 = Question(question_id="q3", title="Mustard or Ketchup?", description=" ", user_id=1)
 
-    db.session.add_all([cat, dog, horse, answer_1, answer_2, answer_3, question_1, question_2, question_3])
+    db.session.add_all([question_1, question_2, question_3])
+    db.session.commit()
+
+    answer_1 = Answer(question_id="q1", user_id=1, body="Yes, I agree.")
+    answer_2 = Answer(question_id="q2", user_id=2, body="No, I disagree.")
+    answer_3 = Answer(question_id="q3", user_id=3, body="Hrm, I'm indifferent.")
+
+    db.session.add_all([answer_1, answer_2, answer_3])
     db.session.commit()
 
 def connect_to_db(app, db_uri="postgresql:///testdb"):
@@ -145,6 +152,6 @@ def connect_to_db(app, db_uri="postgresql:///testdb"):
 
 
 if __name__ == "__main__":
-    import unittest
 
+    import unittest
     unittest.main()
