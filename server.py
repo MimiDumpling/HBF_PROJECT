@@ -18,13 +18,20 @@ app.secret_key = "ABC"
 
 
 @app.route('/')
+def show_mission_statement():
+    """Displays mission statement."""
+
+    return render_template("mission_statement.html")
+
+
+@app.route('/login')
 def show_login():
     """Login page."""
 
     return render_template("login.html")
 
 
-@app.route('/', methods=["POST"])
+@app.route('/login', methods=["POST"])
 def process_login_form():
     """Determines if user/password exists in database."""
 
@@ -119,6 +126,12 @@ def creates_new_question():
     return render_template('question_info_page.html', 
                             question=question, 
                             created_at=the_time)
+
+@app.route("/search")
+def displays_search():
+    """Displays search page."""
+
+    return render_template('search_results.html')
 
 
 @app.route("/search", methods=['POST'])

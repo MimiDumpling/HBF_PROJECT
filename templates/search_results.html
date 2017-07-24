@@ -1,16 +1,11 @@
 {% extends 'base.html' %}
 {% block body %}
-<div>
-  {% if "user_id" in session %}
-    <!-- <li><a href="/user_page/{{ session['user_id'] }}">Profile</a></li> -->
-    <a href="/logout">Logout</a>
-  {% else %}
-    <!-- <li><a href="/register">Register</a></li> -->
-    <a href="/login">Login</a>
-  {% endif %}
-</div>
 
-<a href="/questions">Questions</a>
+<h1>Search</h1>
+  <form action="/search" method="POST">
+    <textarea cols="50" name="user_search"></textarea><br>
+    <input type="submit" value="Search">
+  </form><br>
 
 <div>
 
