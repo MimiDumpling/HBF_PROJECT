@@ -1,12 +1,8 @@
 <!DOCTYPE html>
 <html>
-
   <head>
     <title>{% block title %}Convo{% endblock %}</title>
-
-    <link rel="stylesheet" 
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/static/site.css"/>
 
     {% block css %}
@@ -14,48 +10,46 @@
     {% endblock %}
 
     <script src="http://code.jquery.com/jquery.js"></script>
-
-    <div class="navbar navbar-inverse navbar-static-top">
-      <div class="container">
-
-          <div class="navbar-header">
-              <a class="navbar-brand" href="/">Convo</a>
-          </div>
-
-          <div class="navbar-collapse collapse">
-              <ul class="nav navbar-nav navbar-right"> 
-
-                  <a href="/questions"><span class="tab">Questions</span></a>
-
-                  <a href="/search"><span class="tab">Search</span></a>
-
-                  {% if "user_id" in session %}
-                    <a href="/logout"><span class="tab">Logout</span></a>
-                  {% else %}
-                    <a href="/login"><span class="tab">Login</span></a>
-                  {% endif %}
-
-              </ul>
-          </div>
-
-      </div>
-    </div>
-
   </head>
+
 
   <body>
 
-    <div>
-      <ul>
-        {% for message in get_flashed_messages() %}
-          {{ message }}
-        {% endfor %}
-      </ul>
+    <div class="navbar navbar-inverse navbar-static-top">
+
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/">Convo</a>
+      </div>
+
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right"> 
+          <a href="/questions"><span class="tab">Questions</span></a>
+
+          <a href="/search"><span class="tab">Search</span></a>
+
+          {% if "user_id" in session %}
+            <a href="/logout"><span class="tab">Logout</span></a>
+          {% else %}
+            <a href="/login"><span class="tab">Login</span></a>
+          {% endif %}
+        </ul>
+      </div>
     </div>
 
-  {% block body %}
-    
-  {% endblock %}
+    <div class="container">
+      <div>
+        <ul>
+          {% for message in get_flashed_messages() %}
+            {{ message }}
+          {% endfor %}
+        </ul>
+      </div>
+
+      {% block body %}
+        
+      {% endblock %}
+    </div>
+
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     <script src="/static/vote.js"></script> 

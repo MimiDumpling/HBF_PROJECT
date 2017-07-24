@@ -1,0 +1,11 @@
+body {
+    background-size:     cover;                      /* <------ */
+    background-repeat:   no-repeat;
+    background-position: right top;  
+  	background-image: url(bridge2.jpg);
+  	background-color: black;
+}
+
+.description {
+	text-align: center;
+}
