@@ -60,11 +60,18 @@ p {
     font-size: 15px;
 }
 
-.button {
+.button, button {
     background-color: #F7882F;
     border-radius: 16px;
     box-shadow: none !important;
     border: none !important;
+    color: black !important;
+    font-family: "Helvetica", serif;
+    margin-left: 10px;
+    height: 35px;
+    width: 75px;
+    text-align: center;
+    font-weight: 200 !important;
 }
 
 .search-input {
@@ -80,6 +87,7 @@ p {
 }
 
 input[type="text"],
+input[type="password"],
 textarea {
     border-radius: 8px;
     border: 1px solid #aaa;

@@ -25,3 +25,25 @@ h1 {
 	font-size: 50px;
 	color: black;
 }
+
+.enter-button {
+	background-color: #F7882F;
+    border-radius: 16px;
+    box-shadow: none !important;
+    border: none !important;
+    color: black !important;
+    font-family: "Helvetica", serif;
+    font-weight: 600;
+    margin-left: 10px;
+    display: block;
+    height: auto;
+    margin: 0 auto;
+    width: 290px;
+    padding: 10px;
+    text-align: center;
+   	
+}
+
+
+
+

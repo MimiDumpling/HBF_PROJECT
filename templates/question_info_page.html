@@ -23,7 +23,7 @@
                       data-default-text="Vote This Question Up!"
                       data-alt-text="Thanks for Voting">
                 <span class="icon"></span> 
-                <span class="text">Vote This Question Up!</span>
+                <span class="text">Vote Up</span>
               </button><br><br><br>
             
 
@@ -36,12 +36,12 @@
             <p class="text-color">Answered Date/Time: {{ (answer.created_at | pacific) }}</p>
 
             {% if answer.edited_at %}
-              <p class="text-color">Edited Date/Time: {{ answer.edited_at | pacific }}</p>
+              <p class="text-color">Edited Date/Time: {{ answer.edited_at | pacific }}</p><br>
             {% else %}
-              <p class="text-color">Edited Date/Time: This answer has not been edited.</p>
+              <p class="text-color">Edited Date/Time: This answer has not been edited.</p><br>
             {% endif %}
 
-            <p class="text-color">Answer: {{ answer.body }}</p>
+            <p class="text-color">ANSWER: {{ answer.body }}</p>
             <p class="text-color">
               Current Votes:
               <span class="answer-vote-count" data-answer-id="{{ answer.answer_id }}">
@@ -53,10 +53,10 @@
                     id="answer-vote"
                     class="button answer-vote-btn" 
                     data-answer-id="{{ answer.answer_id }}"
-                    data-default-text="Vote This Answer Up!"
+                    data-default-text="Vote Up"
                     data-alt-text="Thanks for Voting">
               <span class="icon"></span> 
-              <span class="text">Vote This Answer Up!</span>
+              <span class="text">Vote Up</span>
             </button>
 
           </li>
@@ -68,7 +68,7 @@
       </ul>        
 
       {% if answer %}
-        <form action="/questions/{{ question.question_id }}" method="POST">
+        <form class="text-color" action="/questions/{{ question.question_id }}" method="POST">
           Do you want to edit your answer?<br>
           <textarea rows="8" cols="100" name="updated_answer">{{ answer.body }}</textarea><br>
           <input class="button" type="submit" value="Edit">
