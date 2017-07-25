@@ -1,11 +1,26 @@
 body {
-    background-size:     cover;                      /* <------ */
-    background-repeat:   no-repeat;
+    background-size: cover;                   
+    background-repeat: no-repeat;
     background-position: right top;  
-  	background-image: url(bridge2.jpg);
+  	background-image: url(bridge2top.jpg);
   	background-color: black;
+}
+
+.navbar-color {
+    background-color: black !important;
+}
+
+.navbar-brand {
+	color: #F7882F !important;
 }
 
 .description {
 	text-align: center;
+	font-weight: bold;
+	font-family: "Helvetica", serif;
+	font-size: 25px;
+}
+
+h1 {
+	font-size: 50px;
 }

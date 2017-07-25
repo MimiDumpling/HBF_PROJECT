@@ -1,15 +1,24 @@
-/*div.navbar-header img {
-    width: 30px;
-    float: left;
-    margin-top: 7px;
-    margin-right: 7px;
-}*/
-
 
 .navbar-brand {
 	margin-left: 40px;
 	font-weight: bold;
-	font-size: 10px;
+	font-size: 50px;
+    color: yellow;
+    font-family: "Helvetica", serif;
+}
+
+.navbar-color {
+    background-color: #6B7A8F !important;
+}
+
+.navbar-brand {
+    color: #F7882F !important;
+}
+
+.question-color {
+    color: #6B7A8F;
+    font-size: 15px;
+    font-weight: bold;
 }
 
 .words-chart {
@@ -19,12 +28,40 @@
 }
 
 .tab {
-	margin-left: 40px;
+	margin-left: 20px;
 	font-weight: bold;
 	font-size: 20px;
+    color: #F7C331;
+    margin-right: 40px;
 }
 
 h1, h2, h3, h4, h5, h6 {
     font-family: "Helvetica", serif;
     font-weight:  700;
 }
+
+body {
+    background-color: #DCC7AA;
+    color: black;
+}
+
+p {
+    /*font-weight: bold;*/
+    font-size: 15px;
+}
+
+.button {
+    background-color: #F7882F;
+    border-radius: 16px;
+    box-shadow: none !important;
+    border: none !important;
+}
+
+
+
+
+
+
+
+
+

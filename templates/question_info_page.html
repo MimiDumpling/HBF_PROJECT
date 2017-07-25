@@ -19,12 +19,12 @@
 
               <button {% if question.user.user_id in question.question_votes %} disabled {% endif %}
                       id="question-vote"
-                      class="question-vote-btn" 
+                      class="button question-vote-btn" 
                       data-default-text="Vote This Question Up!"
                       data-alt-text="Thanks for Voting">
                 <span class="icon"></span> 
                 <span class="text">Vote This Question Up!</span>
-              </button>
+              </button><br><br><br>
             
 
     {% if question.answers %}
@@ -51,7 +51,7 @@
 
             <button {% if answer.user.user_id in answer.answer_votes %} disabled {% endif %}
                     id="answer-vote"
-                    class="answer-vote-btn" 
+                    class="button answer-vote-btn" 
                     data-answer-id="{{ answer.answer_id }}"
                     data-default-text="Vote This Answer Up!"
                     data-alt-text="Thanks for Voting">
@@ -63,7 +63,7 @@
         {% endfor %}
 
     {% else %}
-      <p>There are no answers for this question.</p>
+      <p>There are no answers for this question.</p><br>
     {% endif %}        
       </ul>        
 
@@ -71,14 +71,14 @@
         <form action="/questions/{{ question.question_id }}" method="POST">
           Do you want to edit your answer?<br>
           <textarea rows="8" cols="100" name="updated_answer">{{ answer.body }}</textarea><br>
-          <input type="submit" value="Edit">
+          <input class="button" type="submit" value="Edit">
         </form>
       {% else %}
         <p>Would you like to answer this question? Please be civil. Low effort content will be removed per moderator discretion.</p>
         <form action="/questions/{{ question.question_id }}" method="POST">
           Submit An Answer:<br>
-          <textarea rows="8" cols="100" name="user_answer"></textarea><br>
-          <input type="submit" value="Submit">
+          <textarea rows="8" cols="110" name="user_answer"></textarea><br>
+          <input class="button" type="submit" value="Submit">
         </form><br>
       {% endif %} 
 

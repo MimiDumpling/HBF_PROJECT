@@ -4,16 +4,16 @@
 <h1>Search</h1>
   <form action="/search" method="POST">
     <textarea cols="50" name="user_search"></textarea><br>
-    <input type="submit" value="Search">
+    <input class="button" type="submit" value="Search">
   </form><br>
 
 <div>
 
-  <h2>Search Results</h2>
+  <h2>Search Results</h2><br>
   <ul>
   {% for question in search_results %}
       <li>
-        <a href="/questions/{{ question.question_id }}">{{ question.title }}</a>
+        <a class="question-color" href="/questions/{{ question.question_id }}">{{ question.title }}</a><br><br>
       </li>
   {% endfor %}
   </ul>

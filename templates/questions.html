@@ -4,23 +4,26 @@
 <div>
 
   <h2>Submit A Question</h2>
-  <p>Would you like to submit a question? Great! Please avoid soapboxing and loaded questions. Low effort content will be removed per moderator discretion.</p>
-    <form action="/questions" method="POST">
-      <textarea rows="8" cols="100" name="user_question"></textarea><br>
-      <input type="submit" value="Submit">
-    </form><br>
 
-  <a href="/graph">Trending Words</a>
+  <p>
+    Would you like to submit a question? Great!<br> 
+    Please avoid soapboxing and loaded questions. 
+    Low effort content will be removed per moderator discretion.
+  </p>
+
+  <form action="/questions" method="POST">
+    <textarea rows="5" cols="95" name="user_question"></textarea><br>
+    <input class="button" type="submit" value="Submit">
+  </form><br>
 
   <h2>Questions</h2>
-  <ul>
-   
-    {% for question in questions %}
-      <li>
-        <a href="/questions/{{ question.question_id }}">{{ question.title }}</a>
-      </li>
-    {% endfor %}
-  
-  </ul>
+    <ul>
+      {% for question in questions %}
+        <li>
+          <a class="question-color" href="/questions/{{ question.question_id }}">{{ question.title }}</a><br><br>
+        </li>
+      {% endfor %}
+    </ul>
 </div>
+
 {% endblock %}
