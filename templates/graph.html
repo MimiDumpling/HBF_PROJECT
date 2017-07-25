@@ -21,7 +21,12 @@
 
 	<script>
 		var options = {
-	      responsive: true
+	      responsive: true,
+	       scale: {
+	       	 pointLabels: {
+            	fontSize: 20
+          	}
+	       }
 	    };
 
 		// make radar chart of trending words
@@ -31,7 +36,7 @@
 			var myRadarChart = new Chart(ctx, {
 			    type: 'radar',
 			    data: data,
-			    options: {}
+			    options: options
 			});
 			$('#radarLegend').html(myRadarChart.generateLegend());
     	});

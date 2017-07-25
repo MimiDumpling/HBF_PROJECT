@@ -166,7 +166,8 @@ def searches_words_in_questions():
 
     return render_template('search_results.html',
                             search_results=search_results,
-                            questions=questions)
+                            questions=questions,
+                            did_search=True)
 
 
 @app.route("/graph")

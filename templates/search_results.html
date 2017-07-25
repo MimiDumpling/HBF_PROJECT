@@ -1,21 +1,23 @@
 {% extends 'base.html' %}
 {% block body %}
 
-<h1>Search</h1>
   <form action="/search" method="POST">
-    <textarea cols="50" name="user_search"></textarea><br>
-    <input class="button" type="submit" value="Search">
+    <input name="user_search" type="text" placeholder="Search for a term or phrase" class="search-input"/>
+    <input class="button search-button" type="submit" value="Search">
   </form><br>
 
 <div>
-
-  <h2>Search Results</h2><br>
-  <ul>
-  {% for question in search_results %}
-      <li>
-        <a class="text-color" href="/questions/{{ question.question_id }}">{{ question.title }}</a><br><br>
-      </li>
-  {% endfor %}
-  </ul>
+  {% if search_results %}
+    <h2>Search Results</h2><br>
+    <ul>
+    {% for question in search_results %}
+        <li>
+          <a class="text-color" href="/questions/{{ question.question_id }}">{{ question.title }}</a><br><br>
+        </li>
+    {% endfor %}
+    </ul>
+  {% elif did_search %}
+  <h2>No results found...</h2>
+  {% endif %}
 </div>
 {% endblock %}
