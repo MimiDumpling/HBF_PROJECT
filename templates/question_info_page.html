@@ -9,10 +9,10 @@
     <div>
         <span id="question_id" data-question-id="{{ question.question_id }}"></span>
 
-        <p>Submitted by: {{ question.user.user_name }}</p>
-        <p>Date/Time Submitted: {{ question.created_at | pacific }}</p>
+        <p class="text-color">Submitted by: {{ question.user.user_name }}</p>
+        <p class="text-color">Date/Time Submitted: {{ question.created_at | pacific }}</p>
 
-          <p>
+          <p class="text-color">
             Current Votes:
             <span class="question-vote-count">{{ question.question_votes | length }}</span>
           </p>
@@ -32,17 +32,17 @@
         {% for answer in question.answers %}
           <li>
 
-            <p>Answered By: {{answer.user.user_name}}</p>
-            <p>Answered Date/Time: {{ (answer.created_at | pacific) }}</p>
+            <p class="text-color">Answered By: {{answer.user.user_name}}</p>
+            <p class="text-color">Answered Date/Time: {{ (answer.created_at | pacific) }}</p>
 
             {% if answer.edited_at %}
-              <p>Edited Date/Time: {{ answer.edited_at | pacific }}</p>
+              <p class="text-color">Edited Date/Time: {{ answer.edited_at | pacific }}</p>
             {% else %}
-              <p>Edited Date/Time: This answer has not been edited.</p>
+              <p class="text-color">Edited Date/Time: This answer has not been edited.</p>
             {% endif %}
 
-            <p>Answer: {{ answer.body }}</p>
-            <p>
+            <p class="text-color">Answer: {{ answer.body }}</p>
+            <p class="text-color">
               Current Votes:
               <span class="answer-vote-count" data-answer-id="{{ answer.answer_id }}">
                 {{ answer.answer_votes | length }}
@@ -63,7 +63,7 @@
         {% endfor %}
 
     {% else %}
-      <p>There are no answers for this question.</p><br>
+      <p class="text-color">There are no answers for this question.</p><br>
     {% endif %}        
       </ul>        
 
@@ -74,8 +74,8 @@
           <input class="button" type="submit" value="Edit">
         </form>
       {% else %}
-        <p>Would you like to answer this question? Please be civil. Low effort content will be removed per moderator discretion.</p>
-        <form action="/questions/{{ question.question_id }}" method="POST">
+        <p class="text-color">Would you like to answer this question? Please be civil. Low effort content will be removed per moderator discretion.</p>
+        <form class="text-color" action="/questions/{{ question.question_id }}" method="POST">
           Submit An Answer:<br>
           <textarea rows="8" cols="110" name="user_answer"></textarea><br>
           <input class="button" type="submit" value="Submit">

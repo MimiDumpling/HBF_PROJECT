@@ -41,15 +41,15 @@ def process_login_form():
     user = User.query.filter_by(email=email).first()
 
     if not user:
-        flash("No such user")
+        flash("No such user.")
         return redirect("/")
 
     if user.password != password:
-        flash("Incorrect password")
+        flash("Incorrect password.")
         return redirect("/")
 
     session["user_id"] = user.user_id
-    flash("You are logged in")
+    flash("You are logged in.")
     
     return redirect("/questions")
 

@@ -15,7 +15,7 @@
     color: #F7882F !important;
 }
 
-.question-color {
+.text-color {
     color: #6B7A8F;
     font-size: 15px;
     font-weight: bold;
@@ -36,6 +36,7 @@
 }
 
 h1, h2, h3, h4, h5, h6 {
+    color: #6B7A8F;
     font-family: "Helvetica", serif;
     font-weight:  700;
 }
@@ -43,6 +44,7 @@ h1, h2, h3, h4, h5, h6 {
 body {
     background-color: #DCC7AA;
     color: black;
+    background-image: url(pw_maze_white_@2x.png)
 }
 
 p {

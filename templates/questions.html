@@ -5,7 +5,7 @@
 
   <h2>Submit A Question</h2>
 
-  <p>
+  <p class="text-color">
     Would you like to submit a question? Great!<br> 
     Please avoid soapboxing and loaded questions. 
     Low effort content will be removed per moderator discretion.
@@ -20,7 +20,7 @@
     <ul>
       {% for question in questions %}
         <li>
-          <a class="question-color" href="/questions/{{ question.question_id }}">{{ question.title }}</a><br><br>
+          <a class="text-color" class="question-color" href="/questions/{{ question.question_id }}">{{ question.title }}</a><br><br>
         </li>
       {% endfor %}
     </ul>
