@@ -589,7 +589,7 @@ if __name__ == "__main__":
     # that we invoke the DebugToolbarExtension
 
     # Do not debug for demo
-    app.debug = True
+    app.debug = False
 
     app.jinja_env.auto_reload = app.debug
 
