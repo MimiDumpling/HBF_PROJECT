@@ -91,7 +91,7 @@ class FlaskTestsLogInLogOut(TestCase):
         """Test log in form."""
 
         with self.client as c:
-            result = c.post('/',
+            result = c.post('/login',
                             data={'email': 'cat@gmail.com', 'password': 'abc'},
                             follow_redirects=True
                             )
