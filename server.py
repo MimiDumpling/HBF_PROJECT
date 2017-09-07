@@ -33,23 +33,19 @@ def show_login():
 
 @app.route('/login', methods=["POST"])
 def process_login_form():
-    """Determines if user/password exists in database."""
+    """Determines if user exists in database."""
 
     # Get form variables
-    email = request.form["email"]
-    password = request.form["password"]
-    user = User.query.filter_by(email=email).first()
+    user_id = request.form["userID"]
+    access_token = request.form["accessToken"]
+    user = User.query.filter_by(user_id=user_id).first()
 
     if not user:
-        flash("No such user.")
-        return redirect("/")
+        flash("Welcome to convo! Please register a username.")
+        return redirect("/register")
 
-    if user.password != password:
-        flash("Incorrect password.")
-        return redirect("/")
-
-    session["user_id"] = user.user_id
-    flash("You are logged in.")
+    # session["user_id"] = user.user_id
+    # flash("You are logged in.")
     
     return redirect("/questions")
 
@@ -67,7 +63,6 @@ def register_process():
 
     # Get form variables
     email = request.form["email"]
-    password = request.form["password"]
     user_name = request.form["user_name"]
 
     new_user = User(email=email, password=password, user_name=user_name)
@@ -589,7 +584,7 @@ if __name__ == "__main__":
     # that we invoke the DebugToolbarExtension
 
     # Do not debug for demo
-    app.debug = False
+    app.debug = True
 
     app.jinja_env.auto_reload = app.debug
 

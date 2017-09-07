@@ -11,8 +11,7 @@ class User(db.Model):
 
     user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_name = db.Column(db.String(20), nullable=False)
-    email = db.Column(db.String(64), nullable=False)
-    password = db.Column(db.String(64), nullable=False)
+    #email = db.Column(db.String(64), nullable=False)
 
     def __repr__(self):
         """Provides helpful representation when printed."""

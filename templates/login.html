@@ -2,18 +2,81 @@
 
 
 {% block title %}
-	Login
+    Login
 {% endblock %}
 
 
 {% block body %}
 
-<form action="/login" method="POST">
+<script>
+    window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '106459510088495',
+          cookie     : true,
+          xfbml      : true,
+          version    : 'v2.10'
+        });
+        
+        FB.AppEvents.logPageView();
+        
+        console.log("HELLO");
+
+        FB.getLoginStatus(function(response) {
+            console.log(response);
+            if (response.status === 'connected'){
+                var userID = response.authResponse.userID;
+                var accessToken = response.authResponse.accessToken;
+
+                function post(path, params, method) {
+                    method = method || "post"; // Set method to post by default if not specified.
+
+                    // The rest of this code assumes you are not using a library.
+                    // It can be made less wordy if you use one.
+                    var form = document.createElement("form");
+                    form.setAttribute("method", method);
+                    form.setAttribute("action", path);
+
+                    for(var key in params) {
+                        if(params.hasOwnProperty(key)) {
+                            var hiddenField = document.createElement("input");
+                            hiddenField.setAttribute("type", "hidden");
+                            hiddenField.setAttribute("name", key);
+                            hiddenField.setAttribute("value", params[key]);
+
+                            form.appendChild(hiddenField);
+                         }
+                    }
+
+                    var hiddenField = document.createElement("input");
+                            hiddenField.setAttribute("type", "submit");
+                            hiddenField.setAttribute("value", "Start asking questions...");
+
+                            form.appendChild(hiddenField);
+
+                    document.body.appendChild(form);
+                    // form.submit();
+                }
+                post("/login", {userID: userID, accessToken: accessToken});
+
+            } else if (response.status === 'not_authorized') {
+              // the user is logged in to Facebook, 
+              // but has not authenticated your app
+            } else {
+              // the user isn't logged in to Facebook.
+            }
+        }); 
+    };
+</script>
+
+<p>Returning to Convo? Click the Facebook authentication below.</p>
+<div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false"></div><br><br><br>
+
+<!-- <form action="/login" method="POST">
     <input type="text" name="email" value="Email"><br>
     <input type="password" name="password" placeholder="Password"><br>
     <input class="button" type="submit" value="LOGIN">
-</form><br>
+</form><br> -->
+<p>New to Convo? Click <a class="text-color" href="/register">Register</a></p>
 
-<a class="text-color" href="/register">Register</a>
 
 {% endblock %}
