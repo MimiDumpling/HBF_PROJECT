@@ -36,18 +36,18 @@ def process_login_form():
     """Determines if user exists in database."""
 
     # Get form variables
-    user_id = request.form["userID"]
+    fb_id = request.form["userID"]
     access_token = request.form["accessToken"]
-    user = User.query.filter_by(user_id=user_id).first()
+    user = User.query.filter_by(fb_id=fb_id).first()
 
     if not user:
         flash("Welcome to convo! Please register a username.")
+        session["fb_id"] = fb_id
         return redirect("/register")
-
-    # session["user_id"] = user.user_id
-    # flash("You are logged in.")
-    
-    return redirect("/questions")
+    else:
+        flash("You are logged in.")
+        session["user_id"] = user.user_id
+        return redirect("/questions")
 
 
 @app.route('/register', methods=['GET'])
@@ -62,15 +62,15 @@ def register_process():
     """Process registration."""
 
     # Get form variables
-    email = request.form["email"]
+    fb_id = session.get("fb_id")
     user_name = request.form["user_name"]
 
-    new_user = User(email=email, password=password, user_name=user_name)
+    new_user = User(fb_id=fb_id, user_name=user_name)
 
     db.session.add(new_user)
     db.session.commit()
 
-    flash("%s, you've been added. :) Please login." % user_name)
+    flash("%s, you've been added. Welcome to Convo!" % user_name)
     return redirect("/")
 
 

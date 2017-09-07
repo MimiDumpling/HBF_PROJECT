@@ -16,18 +16,18 @@
 
   <body>
     <div id="fb-root"></div>
-    <script>(function(d, s, id) {
-      console.log("HOWDY");
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) return;
-      js = d.createElement(s); js.id = id;
-      js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.10&appId=106459510088495";
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));</script>
+    <script>
+      (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.10&appId=106459510088495";
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+    </script>
 
     <script>
       (function(d, s, id){
-        console.log("HIYA");
          var js, fjs = d.getElementsByTagName(s)[0];
          if (d.getElementById(id)) {return;}
          js = d.createElement(s); js.id = id;
@@ -35,6 +35,19 @@
          fjs.parentNode.insertBefore(js, fjs);
        }(document, 'script', 'facebook-jssdk'));
     </script>
+
+    <script>
+      function myLogout(event) {
+        console.log("Oh Hai");
+        FB.logout(function(response) {
+           // Person is now logged out
+           console.log(response);
+           console.log("Howdy");
+        });
+      }
+
+    </script>
+
 
     <nav class="navbar-color navbar navbar-inverse navbar-static-top">
 
@@ -51,7 +64,16 @@
           <a href="/search"><span class="tab">Search</span></a>
 
           {% if "user_id" in session %}
-            <a href="/logout"><span class="tab">Logout</span></a>
+            <a id="logout" href="/logout">
+              <span class="tab">
+                Logout
+                  <script>
+                    var logout = document.getElementById('logout');
+                    logout.addEventListener('click', myLogout);
+                    console.log("Greetings!");
+                  </script>
+              </span>
+            </a>
           {% else %}
             <a href="/login"><span class="tab">Login</span></a>
           {% endif %}

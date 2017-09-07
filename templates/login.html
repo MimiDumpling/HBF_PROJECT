@@ -23,6 +23,7 @@
 
         FB.getLoginStatus(function(response) {
             console.log(response);
+
             if (response.status === 'connected'){
                 var userID = response.authResponse.userID;
                 var accessToken = response.authResponse.accessToken;
@@ -47,36 +48,39 @@
                          }
                     }
 
-                    var hiddenField = document.createElement("input");
-                            hiddenField.setAttribute("type", "submit");
-                            hiddenField.setAttribute("value", "Start asking questions...");
-
-                            form.appendChild(hiddenField);
+                    // use to debug manually instead of form.submit()
+                    // var submitButton = document.createElement("input");
+                    // submitButton.setAttribute("type", "submit");
+                    // submitButton.setAttribute("value", "Start asking questions...");
+                    // form.appendChild(submitButton);
 
                     document.body.appendChild(form);
-                    // form.submit();
+                    form.submit();
                 }
                 post("/login", {userID: userID, accessToken: accessToken});
 
             } else if (response.status === 'not_authorized') {
               // the user is logged in to Facebook, 
               // but has not authenticated your app
+                window.alert("To use Convo, please authorize Facebook for authentication. Thanks!");
             } else {
               // the user isn't logged in to Facebook.
+                window.alert("Please login to Facebook for authentication. Thanks!");
+
             }
         }); 
     };
 </script>
 
-<p>Returning to Convo? Click the Facebook authentication below.</p>
-<div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false"></div><br><br><br>
+<!-- <p>Returning to Convo? Click the Facebook authentication below.</p>
+ --><div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false"></div><br><br><br>
 
 <!-- <form action="/login" method="POST">
     <input type="text" name="email" value="Email"><br>
     <input type="password" name="password" placeholder="Password"><br>
     <input class="button" type="submit" value="LOGIN">
 </form><br> -->
-<p>New to Convo? Click <a class="text-color" href="/register">Register</a></p>
-
+<!-- <p>New to Convo? Click <a class="text-color" href="/register">Register</a></p>
+ -->
 
 {% endblock %}

@@ -10,8 +10,8 @@ class User(db.Model):
     __tablename__= "users"
 
     user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    fb_id = db.Column(db.BigInteger, nullable=False)
     user_name = db.Column(db.String(20), nullable=False)
-    #email = db.Column(db.String(64), nullable=False)
 
     def __repr__(self):
         """Provides helpful representation when printed."""
