@@ -3,57 +3,60 @@
 
 <h2>Trending Words</h2><br>
 
-<h3><center>January 2017</center></h3>
-
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+<p>This page is still under construction. It's gonna be great!</p>
 
 
-	<div class="words-chart">
-		<canvas id="words-radar"></canvas>
-		<div id="radarLegend" class="chart-legend"></div>
-	</div><br><br><br><br>
-
-	<div class="words-chart">
-		<canvas id="words-line"></canvas>
-		<div id="lineLegend" class="chart-legend"></div>
-	</div>
+<!-- <h3><center>January 2017</center></h3>
+ -->
+  <!-- // <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script> -->
 
 
-	<script>
-		var options = {
-	      responsive: true,
-	       scale: {
-	       	 pointLabels: {
-            	fontSize: 20
-          	}
-	       }
-	    };
+  <!-- <div class="words-chart"> -->
+    <!-- <canvas id="words-radar"></canvas> -->
+    <!-- <div id="radarLegend" class="chart-legend"></div> -->
+  <!-- </div><br><br><br><br> -->
 
-		// make radar chart of trending words
-		var ctx = $("#words-radar").get(0).getContext("2d");
+  <!-- <div class="words-chart"> -->
+    <!-- <canvas id="words-line"></canvas> -->
+    <!-- <div id="lineLegend" class="chart-legend"></div> -->
+  <!-- </div> -->
 
-		$.get("/graph-radar.json", function (data) {
-			var myRadarChart = new Chart(ctx, {
-			    type: 'radar',
-			    data: data,
-			    options: options
-			});
-			$('#radarLegend').html(myRadarChart.generateLegend());
-    	});
 
-		// make line chart of trending words
-    	var ctx_line = $("#words-line").get(0).getContext("2d");
+  <!-- // <script> -->
+    <!-- var options = {
+  //       responsive: true,
+  //        scale: {
+  //          pointLabels: {
+  //             fontSize: 20
+  //           }
+  //        }
+  //     }; -->
 
-		$.get("/graph-line.json", function (data){
-			var myLineChart = new Chart(ctx_line, {
-				type: 'line',
-				data: data,
-				options: {}
-			});
-			$('#lineLegend').html(myLineChart.generateLegend());
-		});	
+    <!-- // make radar chart of trending words
+    var ctx = $("#words-radar").get(0).getContext("2d");
 
-	</script>
+    $.get("/graph-radar.json", function (data) {
+      var myRadarChart = new Chart(ctx, {
+          type: 'radar',
+          data: data,
+          options: options
+      });
+      $('#radarLegend').html(myRadarChart.generateLegend());
+      });
+
+    // make line chart of trending words
+      var ctx_line = $("#words-line").get(0).getContext("2d");
+
+    $.get("/graph-line.json", function (data){
+      var myLineChart = new Chart(ctx_line, {
+        type: 'line',
+        data: data,
+        options: {}
+      });
+      $('#lineLegend').html(myLineChart.generateLegend());
+    }); --> 
+
+  <!-- </script> -->
 
 
 {% endblock %}
