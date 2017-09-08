@@ -37,17 +37,53 @@
     </script>
 
     <script>
-      function myLogout(event) {
-        console.log("Oh Hai");
-        FB.logout(function(response) {
-           // Person is now logged out
-           console.log(response);
-           console.log("Howdy");
-        });
-      }
-
+      function facebookLogout(evt){
+        evt.preventDefault();
+        FB.getLoginStatus(function(response) {
+          if (response.status === 'connected') {
+            FB.logout(function(response) {
+                window.location = "/logout";
+              });
+            };
+          })
+        };
+      
     </script>
 
+    <script>
+      function facebookLogin(evt){
+        evt.preventDefault();
+        FB.login(function(response) {
+          var userID = response.authResponse.userID;
+          var accessToken = response.authResponse.accessToken;
+
+          function post(path, params, method) {
+              method = method || "post"; // Set method to post by default if not specified.
+
+              // The rest of this code assumes you are not using a library.
+              // It can be made less wordy if you use one.
+              var form = document.createElement("form");
+              form.setAttribute("method", method);
+              form.setAttribute("action", path);
+
+              for(var key in params) {
+                  if(params.hasOwnProperty(key)) {
+                      var hiddenField = document.createElement("input");
+                      hiddenField.setAttribute("type", "hidden");
+                      hiddenField.setAttribute("name", key);
+                      hiddenField.setAttribute("value", params[key]);
+
+                      form.appendChild(hiddenField);
+                   }
+              }
+
+              document.body.appendChild(form);
+              form.submit();
+          }
+          post("/login", {userID: userID, accessToken: accessToken});
+        }, { auth_type: 'reauthenticate' })
+      }
+    </script>
 
     <nav class="navbar-color navbar navbar-inverse navbar-static-top">
 
@@ -69,13 +105,20 @@
                 Logout
                   <script>
                     var logout = document.getElementById('logout');
-                    logout.addEventListener('click', myLogout);
-                    console.log("Greetings!");
+                    logout.addEventListener('click', facebookLogout);
                   </script>
               </span>
             </a>
           {% else %}
-            <a href="/login"><span class="tab">Login</span></a>
+            <a id="login" href="/login">
+              <span class="tab">
+                Login
+                <script>
+                  var login = document.getElementById('login');
+                  login.addEventListener('click', facebookLogin);
+                </script>
+              </span>
+            </a>
           {% endif %}
         </ul>
       </div>
