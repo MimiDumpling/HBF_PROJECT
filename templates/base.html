@@ -38,6 +38,7 @@
 
     <script>
       function facebookLogout(evt){
+        console.log("HIIII!");
         evt.preventDefault();
         FB.getLoginStatus(function(response) {
           if (response.status === 'connected') {
@@ -105,10 +106,16 @@
                 Logout
                   <script>
                     var logout = document.getElementById('logout');
+                    console.log("Howdy", logout)
                     logout.addEventListener('click', facebookLogout);
                   </script>
               </span>
             </a>
+            <script>
+              var logout = document.getElementById('logout');
+              console.log("Greetings", logout)
+              logout.addEventListener('click', facebookLogout);
+            </script>
           {% else %}
             <a id="login" href="/login">
               <span class="tab">
