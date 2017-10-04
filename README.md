@@ -62,6 +62,8 @@ Python backend, PostgreSQL database, Flask server, SQLalchemy, Jinja templating,
 
 Install the dependencies and start the server.
 
+<img src="/static/Convo_install.png">
+
 # Tests
 There are tests covering all routes.
 
