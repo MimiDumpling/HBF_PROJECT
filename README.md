@@ -10,6 +10,19 @@ Python backend, PostgreSQL database, Flask server, SQLalchemy, Jinja templating,
 
 ## Safe Login/Logout with Facebook API
 
+Initial Login
+<img src="/static/Convo_login.png">
+
+Authentication with Facebook
+<img src="/static/Convo_login_cont.png">
+
+Logout
+<img src="/static/Convo_logout.png">
+
+## Registration as a User
+<img src="/static/Convo_register.png">
+
+
 ## Submit a Question
 
 ## Submit an Answer
