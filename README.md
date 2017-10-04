@@ -59,9 +59,12 @@ virtualenv env
 source env/bin/activate 
 pip install -r requirements.txt 
 python server.py
-
 ```
 
 # Tests
 There are tests covering all routes.
+
+```
+python test.py
+```
 
