@@ -23,16 +23,6 @@ Python backend, PostgreSQL database, Flask server, SQLalchemy, Jinja templating,
 <img src="/static/Convo_login_cont.png">
 
 
-### Logout
-
-<img src="/static/Convo_logout.png">
-
-
-### Registration as a User
-
-<img src="/static/Convo_register.png">
-
-
 ### Submit a Question
 
 <img src="/static/Convo_questions.png">
@@ -61,6 +51,16 @@ Python backend, PostgreSQL database, Flask server, SQLalchemy, Jinja templating,
 # Installation
 
 Install the dependencies and start the server.
+
+```
+cd HBF_PROJECT 
+pip install virtualenv 
+virtualenv env 
+source env/bin/activate 
+pip install -r requirements.txt 
+python server.py
+
+```
 
 # Tests
 There are tests covering all routes.
