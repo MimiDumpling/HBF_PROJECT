@@ -70,6 +70,8 @@ def register_process():
     db.session.add(new_user)
     db.session.commit()
 
+    session["user_id"] = new_user.user_id
+
     flash("%s, you've been added. Welcome to Convo!" % user_name)
     return redirect("/")
 
