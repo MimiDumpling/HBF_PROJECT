@@ -37,6 +37,17 @@
     </script>
 
     <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '106459510088495',
+          cookie     : true,
+          xfbml      : true,
+          version    : 'v2.10'
+        });
+        
+        FB.AppEvents.logPageView();
+      }
+
       function facebookLogout(evt){
         console.log("HIIII!");
         evt.preventDefault();

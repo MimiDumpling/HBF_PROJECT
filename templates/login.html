@@ -9,65 +9,55 @@
 {% block body %}
 
 <script>
-    window.fbAsyncInit = function() {
-        FB.init({
-          appId      : '106459510088495',
-          cookie     : true,
-          xfbml      : true,
-          version    : 'v2.10'
-        });
         
-        FB.AppEvents.logPageView();
-        
-        FB.getLoginStatus(function(response) {
-            console.log(response);
+    // FB.getLoginStatus(function(response) {
+    //     console.log(response);
 
-            if (response.status === 'connected'){
-                var userID = response.authResponse.userID;
-                var accessToken = response.authResponse.accessToken;
+    //     if (response.status === 'connected'){
+    //         var userID = response.authResponse.userID;
+    //         var accessToken = response.authResponse.accessToken;
 
-                function post(path, params, method) {
-                    method = method || "post"; // Set method to post by default if not specified.
+    //         function post(path, params, method) {
+    //             method = method || "post"; // Set method to post by default if not specified.
 
-                    // The rest of this code assumes you are not using a library.
-                    // It can be made less wordy if you use one.
-                    var form = document.createElement("form");
-                    form.setAttribute("method", method);
-                    form.setAttribute("action", path);
+    //             // The rest of this code assumes you are not using a library.
+    //             // It can be made less wordy if you use one.
+    //             var form = document.createElement("form");
+    //             form.setAttribute("method", method);
+    //             form.setAttribute("action", path);
 
-                    for(var key in params) {
-                        if(params.hasOwnProperty(key)) {
-                            var hiddenField = document.createElement("input");
-                            hiddenField.setAttribute("type", "hidden");
-                            hiddenField.setAttribute("name", key);
-                            hiddenField.setAttribute("value", params[key]);
+    //             for(var key in params) {
+    //                 if(params.hasOwnProperty(key)) {
+    //                     var hiddenField = document.createElement("input");
+    //                     hiddenField.setAttribute("type", "hidden");
+    //                     hiddenField.setAttribute("name", key);
+    //                     hiddenField.setAttribute("value", params[key]);
 
-                            form.appendChild(hiddenField);
-                         }
-                    }
+    //                     form.appendChild(hiddenField);
+    //                  }
+    //             }
 
-                    // use to debug manually instead of form.submit()
-                    // var submitButton = document.createElement("input");
-                    // submitButton.setAttribute("type", "submit");
-                    // submitButton.setAttribute("value", "Start asking questions...");
-                    // form.appendChild(submitButton);
+    //             // use to debug manually instead of form.submit()
+    //             // var submitButton = document.createElement("input");
+    //             // submitButton.setAttribute("type", "submit");
+    //             // submitButton.setAttribute("value", "Start asking questions...");
+    //             // form.appendChild(submitButton);
 
-                    document.body.appendChild(form);
-                    form.submit();
-                }
-                post("/login", {userID: userID, accessToken: accessToken});
+    //             document.body.appendChild(form);
+    //             form.submit();
+    //         }
+    //         post("/login", {userID: userID, accessToken: accessToken});
 
-            } else if (response.status === 'not_authorized') {
-              // the user is logged in to Facebook, 
-              // but has not authenticated your app
-                window.alert("To use Convo, please authorize Facebook for authentication. Thanks!");
-            } else {
-              // the user isn't logged in to Facebook.
-                window.alert("Please login to Facebook for authentication. Thanks!");
+    //     } else if (response.status === 'not_authorized') {
+    //       // the user is logged in to Facebook, 
+    //       // but has not authenticated your app
+    //         window.alert("To use Convo, please authorize Facebook for authentication. Thanks!");
+    //     } else {
+    //       // the user isn't logged in to Facebook.
+    //         window.alert("Please login to Facebook for authentication. Thanks!");
 
-            }
-        }); 
-    };
+    //     }
+    // }); 
 </script>
 
 <!-- <p>Returning to Convo? Click the Facebook authentication below.</p>
