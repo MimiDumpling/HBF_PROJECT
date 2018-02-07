@@ -10,8 +10,10 @@ import pytz
 pacific = pytz.timezone('US/Pacific')
 
 from random import randint
+from raven.contrib.flask import Sentry
 
 app = Flask(__name__)
+sentry = Sentry(app, dsn='https://4bcaedba8fdd4403a728fe8640f191b4:a92fda66572846cb802c35cf6ca25d57@sentry.io/284188')
 
 # Required to use Flask sessions and the debug toolbar
 app.secret_key = "ABC"
