@@ -34,7 +34,7 @@ Python/Flask backend, PostgreSQL database, SQLalchemy, Jinja templating, Faceboo
 
 ### Live Demo
 
-https://youtu.be/M_NJNVTsh1E
+https://www.youtube.com/watch?v=M_NJNVTsh1E&feature=youtu.be
 
 
 ### Edit an Answer
