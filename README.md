@@ -9,6 +9,10 @@ Convo is a Python based Flask app that allows users to submit questions and answ
 
 Python/Flask backend, PostgreSQL database, SQLalchemy, Jinja templating, Facebook Login/Logout API, AWS deployment
 
+### Live Demo
+
+https://www.youtube.com/watch?v=M_NJNVTsh1E&feature=youtu.be
+
 # Features
 
 ## Safe Login/Logout with Facebook API
@@ -31,11 +35,6 @@ Python/Flask backend, PostgreSQL database, SQLalchemy, Jinja templating, Faceboo
 ### Submit an Answer
 
 <img src="/static/Convo_submit_answ.png">
-
-### Live Demo
-
-https://www.youtube.com/watch?v=M_NJNVTsh1E&feature=youtu.be
-
 
 ### Edit an Answer
 
